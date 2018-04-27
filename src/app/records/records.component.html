@@ -1,0 +1,49 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-2" id="left">
+
+			<div class="row">
+				<div class="col-md-12" id="records-user">
+          <p style="text-align: center">USERS</p>
+        </div>
+      </div>
+      <div class="row">
+          <div class="col-md-12" id="records-filter">
+            <p style="text-align: center">FILTER</p>
+          </div>
+        </div>
+    </div>
+    
+		<div class="col-md-10" id="records">
+
+        <p style="text-align: center">RECORDS</p>
+
+        <table>
+          <tr>
+            <td>Ime osobe</td>
+            <td>Prezime osobe</td>
+            <td>Tip stana</td>
+            <td>Naziv grada</td>
+            <td>Adresa</td>
+            <td>Broj stana</td>
+            <td>Puno ime vlasnika</td>
+            <td>Vreme</td>
+            <td>Status</td>
+          </tr>
+          <tr *ngFor="let record of records">
+              <td>{{record.Person_Name}}</td>
+              <td>{{record.Person_Surname}}</td>
+              <td>{{record.Type_Name}}</td>
+              <td>{{record.City_Name}}</td>
+              <td>{{record.Address}}</td>
+              <td>{{record.Apartment_Number}}</td>
+              <td>{{record.Owner_Name}} {{record.Owner_Surname}}</td>
+              <td>{{record.Date_Time}}</td>
+              <td>{{record.Record_Status}}</td>
+          </tr>
+        
+    </table>
+    
+		</div>
+	</div>
+</div>

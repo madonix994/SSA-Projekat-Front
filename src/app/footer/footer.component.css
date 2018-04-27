@@ -1,0 +1,10 @@
+*{
+
+    margin: 0px;
+    padding: 0px;
+}
+#footer
+{
+    border: 1px solid black;
+    height: 80px; /* ovo ce se menjati */
+}

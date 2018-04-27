@@ -1,0 +1,34 @@
+*{
+
+    margin: 0px;
+    padding: 0px;
+}
+
+#left
+{
+    border: 1px solid black; /* ovo ce se menjati */
+    height: 450px; /* ovo ce se menjati */
+
+
+}
+#records-user
+{
+    border: 1px solid black; /* ovo ce se menjati */
+    height: 50px; /* ovo ce se menjati */
+
+}
+#records
+{
+    border: 1px solid black; /* ovo ce se menjati */
+    height: 450px; /* ovo ce se menjati */
+
+}
+#records-filter
+{
+
+    border: 1px solid black; /* ovo ce se menjati */
+    height: 400px; /* ovo ce se menjati */
+    
+
+}
+

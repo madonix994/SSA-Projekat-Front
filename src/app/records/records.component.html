@@ -44,6 +44,21 @@
         
     </table>
     
-		</div>
+    </div>
+    <h3>Vremenski Period</h3>
+      <div class="radio">
+          <label><input type="radio" name="optradio" (change)="getRecordsToday()">Dnevno</label>
+        </div>
+        <div class="radio">
+          <label><input type="radio" name="optradio" (change)="getRecordsWeek()">Nedeljno</label>
+        </div>
+        <div class="radio">
+          <label><input type="radio" name="optradio" (change)="getRecordsMonth()">Mesečno</label>
+        </div>
+        
+
+
+
+     
 	</div>
 </div>

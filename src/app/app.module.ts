@@ -7,7 +7,11 @@ import { RecordsComponent } from './records/records.component';
 
 // Dodatni importi
 import { IRecord } from "../app/Models/IRecord";
+import { ICityName } from "../app/Models/ICityName";
+import { ITypeName } from "../app/Models/ITypeName";
 import { RecordsService } from "../app/Services/records.service";
+import { CityNameService } from "../app/Services/city-name.service";
+import { TypeNameService } from "../app/Services/type-name.service";
 import { HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from "@angular/forms";
@@ -29,7 +33,7 @@ import { FormsModule } from "@angular/forms";
     HttpModule,
     FormsModule
   ],
-  providers: [RecordsService],
+  providers: [RecordsService, CityNameService, TypeNameService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

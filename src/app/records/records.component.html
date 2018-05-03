@@ -10,6 +10,13 @@
       <div class="row">
           <div class="col-md-12" id="records-filter">
             <p style="text-align: center">FILTER</p>
+            <select [(ngModel)]="filteredApartmentType" (change)="filter()">
+              <option *ngFor="let a of listOfApartmentTypes" [value]="a.Type_Name">{{a.Type_Name}}</option>
+            </select>
+            <select [(ngModel)]="filteredCityName" (change)="filter()">
+              <option *ngFor="let a of listOfCityNames" [value]="a.City_Name">{{a.City_Name}}</option>
+            </select>
+
           </div>
         </div>
     </div>
@@ -30,7 +37,7 @@
             <td>Vreme</td>
             <td>Status</td>
           </tr>
-          <tr *ngFor="let record of records">
+          <tr *ngFor="let record of filteredRecords">
               <td>{{record.Person_Name}}</td>
               <td>{{record.Person_Surname}}</td>
               <td>{{record.Type_Name}}</td>

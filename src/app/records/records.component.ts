@@ -2,7 +2,11 @@ import { Component, OnInit } from '@angular/core';
 
 // Dodatni importi
 import { IRecord } from "../Models/IRecord";
+import { ICityName } from "../Models/ICityName";
+import { ITypeName } from "../Models/ITypeName";
 import { RecordsService } from "../Services/records.service";
+import { CityNameService } from "../Services/city-name.service";
+import { TypeNameService} from "../Services/type-name.service";
 import { Observable } from 'rxjs/Observable';
 import { HttpClientModule } from '@angular/common/http';
 import { Http } from '@angular/http';
@@ -17,7 +21,7 @@ import { Http } from '@angular/http';
 })
 export class RecordsComponent implements OnInit {
 
-  constructor(private recordsService: RecordsService) { }
+  constructor(private recordsService: RecordsService, private typeNameService: TypeNameService, private cityNameService: CityNameService) { }
 
   public numberOfRecords: number;
 
@@ -25,55 +29,55 @@ export class RecordsComponent implements OnInit {
 
   public filteredRecords: IRecord[] = [];
 
+  public typeNames: ITypeName[] = [];
+
   public filteredApartmentType: string = "";//pokupljen select sa fronta iz dropdown-a!
 
- 
-
   public listOfApartmentTypes: string[] = [];
+
+  public cityNames: ICityName[] = [];
+
+  public filteredCityName: string = "";
+
+  public listOfCityNames: string[] = [];
 
   getRecords(): void {
     this.recordsService.getRecords()
       .subscribe(data => {
         this.records = data;
-      });
-  }
-  getRecordsToday(): void {
-    this.records = [];
-    this.recordsService.getRecordsToday()
-      .subscribe(data => {
-        this.records = data;
-        this.numberOfRecords = this.records.length;//br polja u tabeli
         this.filteredRecords = JSON.parse(JSON.stringify(this.records));
+
       });
   }
 
-  getRecordsWeek(): void {
-    this.records = [];
-    this.recordsService.getRecordsWeek()
+  getTypeName():void {
+    this.typeNameService.getTypeName()
       .subscribe(data => {
-        this.records = data;
-        this.numberOfRecords = this.records.length;//br polja u tabeli
-        this.filteredRecords = JSON.parse(JSON.stringify(this.records));
+        this.typeNames = data;
+        this.listOfApartmentTypes = JSON.parse(JSON.stringify(this.typeNames));
       });
   }
 
-  getRecordsMonth(): void {
-    this.records = [];
-    this.recordsService.getRecordsMonth()
+  getCityName():void {
+    this.cityNameService.getCityName()
       .subscribe(data => {
-        this.records = data;
-        this.numberOfRecords = this.records.length;//br polja u tabeli
-        this.filteredRecords = JSON.parse(JSON.stringify(this.records));
+        this.cityNames = data;
+        this.listOfCityNames = JSON.parse(JSON.stringify(this.cityNames));
       });
   }
-
-
+  
   filter() {
     if (this.filteredApartmentType) {
       this.filteredRecords = JSON.parse(JSON.stringify(
         this.records.filter(r => r.Type_Name === this.filteredApartmentType)
       ));
     }
+    if (this.filteredCityName) {
+      this.filteredRecords = JSON.parse(JSON.stringify(
+        this.filteredRecords.filter(r => r.City_Name === this.filteredCityName)
+      ));
+    }
+
     this.numberOfRecords = this.filteredRecords.length;//br polja u tabeli
 
   }
@@ -81,6 +85,8 @@ export class RecordsComponent implements OnInit {
 
   ngOnInit() {
     this.getRecords();
+    this.getTypeName();
+    this.getCityName();
   }
 
 }

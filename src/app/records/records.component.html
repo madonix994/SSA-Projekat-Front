@@ -22,7 +22,35 @@
             </select>
 
           </div>
+          
         </div>
+         <!-- Date Range Picker -->
+    <div class="row">
+      <div class="col-xs-12 col-12 col-md-4 form-group">
+        <input style="width: 200px" (ngModelChange)="filter()" class="form-control" #drp="bsDaterangepicker" bsDaterangepicker [(ngModel)]="bsRangeValue">
+      </div>
+    </div>
+    <!-- Kraj Date Range Picker --> 
+
+  <br>
+<!-- Prikaz filtera za filtriranje po vremenu -->
+  <div class="radio">
+    <label>
+      <input type="radio" (change)="filter()" [(ngModel)]="filteredDate" [value]="AllDateString">Sve</label>
+    <br>
+    <label>
+      <input type="radio" (change)="filter()" [(ngModel)]="filteredDate" [value]="todayString">Danas</label>
+    <br>
+    <label>
+      <input type="radio" (change)="filter()" [(ngModel)]="filteredDate" [value]="weekString">Poslednje nedelje</label>
+    <br>
+    <label>
+      <input type="radio" (change)="filter()" [(ngModel)]="filteredDate" [value]="monthString">Poslednjeg meseca</label>
+  
+  </div>
+  <!-- Kraj prikaza filtera za filtriranje po vremenu -->
+  <button onclick="Reload()">Reload page</button>
+  <br>
     </div>
     
 		<div class="col-md-10" id="records">
@@ -64,20 +92,12 @@
           </tr>
         
     </table>
+    <br>
+   
     <pagination-controls (pageChange)="p = $event"></pagination-controls>
 
     </div>
-    <h3>Vremenski Period</h3>
-      <div class="radio">
-          <label><input type="radio" name="optradio" (change)="getRecordsToday()">Dnevno</label>
-        </div>
-        <div class="radio">
-          <label><input type="radio" name="optradio" (change)="getRecordsWeek()">Nedeljno</label>
-        </div>
-        <div class="radio">
-          <label><input type="radio" name="optradio" (change)="getRecordsMonth()">Mesečno</label>
-        </div>
-        
+   
 
 
 

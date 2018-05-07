@@ -83,6 +83,19 @@ export class RecordsComponent implements OnInit {
   }
 
 
+  //Za sortiranje
+  public key: string;
+  reverse: boolean = false;
+  sort(key) {
+    if (key == "Person_Name" || key == "Person_Surname" || key == "City_Name" || "Date_Time") {
+      this.key = key;
+      this.reverse = !this.reverse;
+    }
+  }
+
+  //Za paginaciju
+  p: number = 1;
+
   ngOnInit() {
     this.getRecords();
     this.getTypeName();

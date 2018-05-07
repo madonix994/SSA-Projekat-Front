@@ -15,8 +15,9 @@ import { TypeNameService } from "../app/Services/type-name.service";
 import { HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from "@angular/forms";
-
-
+import { Ng2SearchPipeModule } from 'ng2-search-filter'; //Za pretragu
+import { Ng2OrderModule } from 'ng2-order-pipe'; //Za sortiranje
+import {NgxPaginationModule} from 'ngx-pagination'; // Za paginaciju
 
 
 
@@ -31,7 +32,11 @@ import { FormsModule } from "@angular/forms";
     BrowserModule,
     HttpClientModule,
     HttpModule,
-    FormsModule
+    FormsModule,
+    Ng2SearchPipeModule, //Za pretragu
+    Ng2OrderModule, //Za sortiranje
+    NgxPaginationModule//Za paginaciju
+
   ],
   providers: [RecordsService, CityNameService, TypeNameService],
   bootstrap: [AppComponent]

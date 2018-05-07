@@ -10,6 +10,8 @@ import { TypeNameService} from "../Services/type-name.service";
 import { Observable } from 'rxjs/Observable';
 import { HttpClientModule } from '@angular/common/http';
 import { Http } from '@angular/http';
+import { DatePipe } from '@angular/common';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 
 
@@ -21,7 +23,7 @@ import { Http } from '@angular/http';
 })
 export class RecordsComponent implements OnInit {
 
-  constructor(private recordsService: RecordsService, private typeNameService: TypeNameService, private cityNameService: CityNameService) { }
+  constructor(private recordsService: RecordsService,public datepipe: DatePipe, private typeNameService: TypeNameService, private cityNameService: CityNameService) { }
 
   public numberOfRecords: number;
 
@@ -40,6 +42,29 @@ export class RecordsComponent implements OnInit {
   public filteredCityName: string = "";
 
   public listOfCityNames: string[] = [];
+  public filteredDate: string;
+
+
+  today: Date;
+  public todayString: string;
+
+  week: Date;
+  public weekString: string;
+
+  month: Date;
+  public monthString: string;
+
+  AllDate: Date;
+  public AllDateString: string;
+
+
+  bsValue: Date;
+  maxDate: Date;
+  bsRangeValue: Date[];
+  date1: string;
+  date2: string;
+
+
 
   getRecords(): void {
     this.recordsService.getRecords()
@@ -67,20 +92,49 @@ export class RecordsComponent implements OnInit {
   }
   
   filter() {
+    this.filteredRecords = this.records;
     if (this.filteredApartmentType) {
       this.filteredRecords = JSON.parse(JSON.stringify(
-        this.records.filter(r => r.Type_Name === this.filteredApartmentType)
-      ));
+        this.filteredRecords.filter(r => r.Type_Name === this.filteredApartmentType)));
     }
     if (this.filteredCityName) {
       this.filteredRecords = JSON.parse(JSON.stringify(
-        this.filteredRecords.filter(r => r.City_Name === this.filteredCityName)
-      ));
+        this.filteredRecords.filter(r => r.City_Name === this.filteredCityName)));
+    }
+    if (this.filteredDate === this.todayString) {
+      this.filteredRecords = JSON.parse(JSON.stringify(
+        this.filteredRecords.filter(r => r.Date_Time.substr(0, 10) === this.todayString)));
+    }
+    if (this.filteredDate === this.weekString) {
+      this.filteredRecords = JSON.parse(JSON.stringify(
+        this.filteredRecords.filter(r => r.Date_Time.substr(0, 10) >= this.weekString)));
+    }
+    if (this.filteredDate === this.monthString) {
+      this.filteredRecords = JSON.parse(JSON.stringify(
+        this.filteredRecords.filter(r => r.Date_Time.substr(0, 10) >= this.monthString)));
+    }
+    if (this.filteredDate === this.AllDateString) {
+      this.filteredRecords = JSON.parse(JSON.stringify(
+        this.filteredRecords.filter(r => r.Date_Time.substr(0, 10) >= this.AllDateString)));
+    }
+    if (this.bsRangeValue) {
+      this.bsValue = new Date();
+      this.bsValue = this.bsRangeValue[0];
+      this.date1 = this.datepipe.transform(this.bsValue, 'yyyy-MM-dd');
+      this.maxDate = new Date();
+      this.maxDate = this.bsRangeValue[1];
+      this.date2 = this.datepipe.transform(this.maxDate, 'yyyy-MM-dd');
+
+      this.filteredRecords = JSON.parse(JSON.stringify(
+        this.filteredRecords.filter(r => r.Date_Time.substr(0, 10) >= this.date1 && r.Date_Time.substr(0, 10) <= this.date2)));
+
+    }
+    
     }
 
-    this.numberOfRecords = this.filteredRecords.length;//br polja u tabeli
+   
 
-  }
+  
 
 
   //Za sortiranje
@@ -100,6 +154,18 @@ export class RecordsComponent implements OnInit {
     this.getRecords();
     this.getTypeName();
     this.getCityName();
+    this.today = new Date();
+    this.todayString = this.datepipe.transform(this.today, 'yyyy-MM-dd');
+    this.week = new Date();
+    this.week.setDate(this.week.getDate() - 7);
+    this.weekString = this.datepipe.transform(this.week, 'yyyy-MM-dd');
+    this.month = new Date();
+    this.month.setDate(this.month.getDate() - 30);
+    this.monthString = this.datepipe.transform(this.month, 'yyyy-MM-dd');
+    this.AllDate = new Date();
+    this.AllDate.setDate(this.AllDate.getDay() - 15000);
+    this.AllDateString = this.datepipe.transform(this.AllDate, 'yyyy-MM-dd');
+
   }
 
 }

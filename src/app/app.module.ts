@@ -20,7 +20,8 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter'; //Za pretragu
 import { Ng2OrderModule } from 'ng2-order-pipe'; //Za sortiranje
 import {NgxPaginationModule} from 'ngx-pagination'; // Za paginaciju
 import { DatePipe } from '@angular/common';
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker'; //Za DatePicker
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { LoginComponent } from './login/login.component'; //Za DatePicker
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker'; //Za DatePicker
     HeaderComponent,
     FooterComponent,
     RecordsComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,

@@ -10,7 +10,7 @@ export interface IRecord
     Owner_Surname: string;
     Date_Time: string;
     Record_Status: string;
-
+    Record_Id: string;
     // OSTALI PODACI NISU POTREBNI ZA ISPIS
     // Appartment_Status: string;
     // Ppt: number;

@@ -1,106 +1,153 @@
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-md-2" id="left">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-			<div class="row">
-				<div class="col-md-12" id="records-user">
-          <p style="text-align: center">Search</p>
-          
-          <nav class="navbar">
-            <input class="form-control" type="text" name="search" [(ngModel)]="searchfilter">      
-          </nav>
+
+
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-2" id="left">
+
+      <div class="row">
+        <div class="col-md-12" id="records-user">
+
+          <img src="assets/user.png" alt="UserIcon" class="UserIcon">
+          <p class="UserName">Korisnik:
+            <span style="font-weight: bold">Predrag Kolovic</span>
+          </p>
+          <p class="numberOfApartments">Broj stanova:
+            <span style="font-weight: bold">55</span>
+          </p>
+
         </div>
       </div>
       <div class="row">
-          <div class="col-md-12" id="records-filter">
-            <p style="text-align: center">FILTER</p>
-            <select [(ngModel)]="filteredApartmentType" (change)="filter()">
-              <option *ngFor="let a of listOfApartmentTypes" [value]="a.Type_Name">{{a.Type_Name}}</option>
-            </select>
-            <select [(ngModel)]="filteredCityName" (change)="filter()">
-              <option *ngFor="let a of listOfCityNames" [value]="a.City_Name">{{a.City_Name}}</option>
-            </select>
+        <div class="col-md-12" id="records-filter">
+          <input id="navbar" class="form-control" type="text" name="search" placeholder="Pretražite..." [(ngModel)]="searchfilter">
+
+          <select id="apartmentType" class="form-control" [(ngModel)]="filteredApartmentType" (change)="filter()">
+            <option value="" selected disabled hidden>Odaberite tip stana</option>
+            <option *ngFor="let a of listOfApartmentTypes" [value]="a.Type_Name">{{a.Type_Name}}</option>
+          </select>
+          <br>
+          <select id="cityName" class="form-control" [(ngModel)]="filteredCityName" (change)="filter()">
+            <option value="" selected disabled hidden>Odaberite grad</option>
+            <option *ngFor="let a of listOfCityNames" [value]="a.City_Name">{{a.City_Name}}</option>
+          </select>
+
+
+
+          <input id="dateRangePicker" style="width: 200px" (bsValueChange)="filter()" class="form-control"
+            #drp="bsDaterangepicker" bsDaterangepicker [bsConfig]="bsConfig" placement="right" [(ngModel)]="bsRangeValue">
+
+          <br>
+          <!-- Prikaz filtera za filtriranje po vremenu -->
+          <div class="radio">
+            <label>
+              <input type="radio" (change)="filter()" [(ngModel)]="filteredDate" [value]="AllDateString">Sve</label>
+            <br>
+            <label>
+              <input type="radio" (change)="filter()" [(ngModel)]="filteredDate" [value]="todayString">Danas</label>
+            <br>
+            <label>
+              <input type="radio" (change)="filter()" [(ngModel)]="filteredDate" [value]="weekString">Poslednje nedelje</label>
+            <br>
+            <label>
+              <input type="radio" (change)="filter()" [(ngModel)]="filteredDate" [value]="monthString">Poslednjeg meseca</label>
 
           </div>
-          
+          <!-- Kraj prikaza filtera za filtriranje po vremenu -->
+          <div class="row">
+            <div class="col-md-12">
+              <button onclick="Reload()" id="btnReload" class="btn-info">Poništi filtere</button>
+            </div>
+          </div>
+
+          <br>
+
+
+
         </div>
-         <!-- Date Range Picker -->
-    <div class="row">
-      <div class="col-xs-12 col-12 col-md-4 form-group">
-        <input style="width: 200px" (ngModelChange)="filter()" class="form-control" #drp="bsDaterangepicker" bsDaterangepicker [(ngModel)]="bsRangeValue">
+
       </div>
+      <!-- Date Range Picker -->
+      <div class="row">
+        <div class="col-xs-12 col-12 col-md-4 form-group">
+        </div>
+      </div>
+      <!-- Kraj Date Range Picker -->
+
+
     </div>
-    <!-- Kraj Date Range Picker --> 
 
-  <br>
-<!-- Prikaz filtera za filtriranje po vremenu -->
-  <div class="radio">
-    <label>
-      <input type="radio" (change)="filter()" [(ngModel)]="filteredDate" [value]="AllDateString">Sve</label>
-    <br>
-    <label>
-      <input type="radio" (change)="filter()" [(ngModel)]="filteredDate" [value]="todayString">Danas</label>
-    <br>
-    <label>
-      <input type="radio" (change)="filter()" [(ngModel)]="filteredDate" [value]="weekString">Poslednje nedelje</label>
-    <br>
-    <label>
-      <input type="radio" (change)="filter()" [(ngModel)]="filteredDate" [value]="monthString">Poslednjeg meseca</label>
-  
-  </div>
-  <!-- Kraj prikaza filtera za filtriranje po vremenu -->
-  <button onclick="Reload()">Reload page</button>
-  <br>
-    </div>
-    
-		<div class="col-md-10" id="records">
+    <div class="col-md-10" id="records">
 
-        <p style="text-align: center">RECORDS</p>
-
-        <table>
-          <tr>
-            <td class="sortiraj" tooltip="Sortiraj" (click)="sort('Person_Name')">Ime osobe
-              <span class="glyphicon sort-icon" *ngIf="key =='Person_Name'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-            </td>
-            <td class="sortiraj" tooltip="Sortiraj" (click)="sort('Person_Surname')">Prezime osobe
-              <span class="glyphicon sort-icon" *ngIf="key =='Person_Surname'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-            </td>
-            <td>Tip stana</td>
-            <td class="sortiraj" tooltip="Sortiraj" (click)="sort('City_Name')">Naziv grada
-              <span class="glyphicon sort-icon" *ngIf="key =='City_Name'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-            </td>
-            <td>Adresa</td>
-            <td>Broj stana</td>
-            <td>Puno ime vlasnika</td>
-            <td class="sortiraj" tooltip="Sortiraj" (click)="sort('Date_Time')">Datum
-              <span class="glyphicon sort-icon" *ngIf="key =='Date_Time'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-            </td>
-            <td>Vreme</td>
-            <td>Status</td>
-          </tr>
-          <tr *ngFor="let record of filteredRecords | orderBy: key : reverse | filter:searchfilter | paginate: { itemsPerPage: 10, currentPage: p }; let i = index">
+      <br>
+      <div id="tableEvidention" class="container">
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered">
+            <tr>
+              <td class="sortiraj" tooltip="Sortiraj" (click)="sort('Person_Name')">Ime osobe
+                <span class="glyphicon sort-icon" *ngIf="key =='Person_Name'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              </td>
+              <td class="sortiraj" tooltip="Sortiraj" (click)="sort('Person_Surname')">Prezime osobe
+                <span class="glyphicon sort-icon" *ngIf="key =='Person_Surname'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              </td>
+              <td>Tip stana</td>
+              <td class="sortiraj" tooltip="Sortiraj" (click)="sort('City_Name')">Naziv grada
+                <span class="glyphicon sort-icon" *ngIf="key =='City_Name'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              </td>
+              <td>Adresa</td>
+              <td class="sortiraj" tooltip="Sortiraj" (click)="sort('Date_Time')">Datum
+                <span class="glyphicon sort-icon" *ngIf="key =='Date_Time'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              </td>
+              <td>Vreme</td>
+              <td>Akcija</td>
+            </tr>
+            <tr *ngFor="let record of filteredRecords | orderBy: key : reverse | filter:searchfilter | paginate: { itemsPerPage: 6, currentPage: p }; let i = index">
               <td>{{record.Person_Name}}</td>
               <td>{{record.Person_Surname}}</td>
               <td>{{record.Type_Name}}</td>
               <td>{{record.City_Name}}</td>
               <td>{{record.Address}}</td>
-              <td>{{record.Apartment_Number}}</td>
-              <td>{{record.Owner_Name}} {{record.Owner_Surname}}</td>
               <td>{{record.Date_Time| date:'dd.MM.yyyy'}}</td>
               <td>{{record.Date_Time | date:"HH:mm"}}</td>
-              <td>{{record.Record_Status}}</td>
-          </tr>
-        
-    </table>
-    <br>
-   
-    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+              <td>
+                <!-- <button [(ngModel)]="detailRecord" [value]="record.Record_Id" (click)="detailFilter();openModalWithClass(template)" class="btnDetails">Detaljnije</button> -->
+                
+                  <input type="button" value="Detaljnije"  (click)="openModalWithClass(template, record)"
+                    id="btnDetails">
+                
+              </td>
+            </tr>
+
+          </table>
+          <br>
+        </div>
+      </div>
+      <pagination-controls class="paginationPosition" (pageChange)="p = $event"></pagination-controls>
 
     </div>
-   
 
 
 
-     
-	</div>
+
+
+  </div>
 </div>
+
+<button type="button" class="btn btn-primary" (click)="openModalWithClass(template)">Open modal with custom css class</button>
+<br>
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Modal</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    {{selectedRecord.Person_Name}}
+  </div>
+</ng-template>

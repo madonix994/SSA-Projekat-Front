@@ -22,7 +22,7 @@ import {NgxPaginationModule} from 'ngx-pagination'; // Za paginaciju
 import { DatePipe } from '@angular/common';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { LoginComponent } from './login/login.component'; //Za DatePicker
-
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   declarations: [
@@ -40,7 +40,8 @@ import { LoginComponent } from './login/login.component'; //Za DatePicker
     Ng2SearchPipeModule, //Za pretragu
     Ng2OrderModule, //Za sortiranje
     NgxPaginationModule,//Za paginaciju
-    BsDatepickerModule.forRoot() //Dodataka za odabir datuma
+    BsDatepickerModule.forRoot(), //Dodataka za odabir datuma
+    ModalModule.forRoot()
 
 
   ],

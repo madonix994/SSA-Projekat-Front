@@ -8,9 +8,11 @@ import { RecordsComponent } from './records/records.component';
 
 // Dodatni importi
 import { IRecord } from "../app/Models/IRecord";
+import { ILogin } from "../app/Models/ILogin";
 import { ICityName } from "../app/Models/ICityName";
 import { ITypeName } from "../app/Models/ITypeName";
 import { RecordsService } from "../app/Services/records.service";
+import { LoginService } from "../app/Services/login.service";
 import { CityNameService } from "../app/Services/city-name.service";
 import { TypeNameService } from "../app/Services/type-name.service";
 import { HttpClientModule } from '@angular/common/http';
@@ -45,7 +47,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 
 
   ],
-  providers: [RecordsService, CityNameService, TypeNameService, DatePipe],
+  providers: [RecordsService, CityNameService, TypeNameService, DatePipe, LoginService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

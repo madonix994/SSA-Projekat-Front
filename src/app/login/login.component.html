@@ -19,18 +19,19 @@
 	  
 		  <!-- Login Form -->
 		  <form>
-			<input type="text" id="login" class="fadeIn second" name="login" placeholder="Korisničko Ime">
-			<input type="password" id="password" class="fadeIn third" name="login" placeholder="Lozinka">
-			<input type="submit" class="fadeIn fourth" value="Prijava">
+			<input type="text" id="login" class="fadeIn second" [(ngModel)] = "txtUsername" name="login" placeholder="Korisničko Ime">
+			<input type="password" id="password" class="fadeIn third" [(ngModel)] = "txtPassword" name="login" placeholder="Lozinka">
+			<input type="button" (click) = "Login(txtUsername, txtPassword)" class="fadeIn fourth" value="Prijava">
 		  </form>
 	  
-		  <!-- Remind Passowrd -->
 		  <div id="formFooter">
 			  <p class="copywriting">© 2018 aviatowebportal.rs - Sva prava zadržana</p>
 		  </div>
 	  
 		</div>
 	  </div>
+
+	  {{login | json}}
 	  
 	  
 	  

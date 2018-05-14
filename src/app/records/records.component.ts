@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 
 // Dodatni importi
 import { IRecord } from "../Models/IRecord";
@@ -6,15 +6,16 @@ import { ICityName } from "../Models/ICityName";
 import { ITypeName } from "../Models/ITypeName";
 import { RecordsService } from "../Services/records.service";
 import { CityNameService } from "../Services/city-name.service";
-import { TypeNameService} from "../Services/type-name.service";
+import { TypeNameService } from "../Services/type-name.service";
 import { Observable } from 'rxjs/Observable';
 import { HttpClientModule } from '@angular/common/http';
 import { Http } from '@angular/http';
 import { DatePipe } from '@angular/common';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-
-
-
+import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-records',
@@ -23,13 +24,20 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 })
 export class RecordsComponent implements OnInit {
 
-  constructor(private recordsService: RecordsService,public datepipe: DatePipe, private typeNameService: TypeNameService, private cityNameService: CityNameService) { }
+  constructor(private modalService: BsModalService, private recordsService: RecordsService, public datepipe: DatePipe, private typeNameService: TypeNameService, private cityNameService: CityNameService) { }
+
+  modalRef: BsModalRef;
 
   public numberOfRecords: number;
 
-  public records:IRecord[] = []; // Deklaracija praznog niza po tipu interfejsa IRecord
+  public records: IRecord[] = []; // Deklaracija praznog niza po tipu interfejsa IRecord
+
+  public selectedRecord: IRecord;
+
 
   public filteredRecords: IRecord[] = [];
+
+  public detailRecords: IRecord[] = [];
 
   public typeNames: ITypeName[] = [];
 
@@ -44,6 +52,7 @@ export class RecordsComponent implements OnInit {
   public listOfCityNames: string[] = [];
   public filteredDate: string;
 
+  public detailRecord: string;
 
   today: Date;
   public todayString: string;
@@ -57,13 +66,29 @@ export class RecordsComponent implements OnInit {
   AllDate: Date;
   public AllDateString: string;
 
-
-  bsValue: Date;
-  maxDate: Date;
+  colorTheme = 'theme-dark-blue';
+  bsConfig: Partial<BsDatepickerConfig>;
+  bsValue = new Date();
+  maxDate: Date = new Date();
   bsRangeValue: Date[];
   date1: string;
   date2: string;
 
+
+  openModalWithClass(template: TemplateRef<any>, selectedRecord: IRecord) {
+    this.modalRef = this.modalService.show(
+      template,
+      Object.assign({}, { class: 'gray modal-lg' })
+    );
+
+    this.selectedRecord = selectedRecord;
+
+  }
+
+
+  applyTheme() {
+    this.bsConfig = Object.assign({}, { containerClass: this.colorTheme });
+  }
 
 
   getRecords(): void {
@@ -75,7 +100,7 @@ export class RecordsComponent implements OnInit {
       });
   }
 
-  getTypeName():void {
+  getTypeName(): void {
     this.typeNameService.getTypeName()
       .subscribe(data => {
         this.typeNames = data;
@@ -83,14 +108,16 @@ export class RecordsComponent implements OnInit {
       });
   }
 
-  getCityName():void {
+  getCityName(): void {
     this.cityNameService.getCityName()
       .subscribe(data => {
         this.cityNames = data;
         this.listOfCityNames = JSON.parse(JSON.stringify(this.cityNames));
       });
   }
-  
+
+
+
   filter() {
     this.filteredRecords = this.records;
     if (this.filteredApartmentType) {
@@ -129,12 +156,12 @@ export class RecordsComponent implements OnInit {
         this.filteredRecords.filter(r => r.Date_Time.substr(0, 10) >= this.date1 && r.Date_Time.substr(0, 10) <= this.date2)));
 
     }
-    
-    }
 
-   
+  }
 
-  
+
+
+
 
 
   //Za sortiranje
@@ -166,6 +193,7 @@ export class RecordsComponent implements OnInit {
     this.AllDate.setDate(this.AllDate.getDay() - 15000);
     this.AllDateString = this.datepipe.transform(this.AllDate, 'yyyy-MM-dd');
 
+    this.applyTheme();
   }
 
 }

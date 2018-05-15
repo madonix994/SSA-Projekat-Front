@@ -16,6 +16,7 @@ import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-records',
@@ -24,7 +25,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 })
 export class RecordsComponent implements OnInit {
 
-  constructor(private modalService: BsModalService, private recordsService: RecordsService, public datepipe: DatePipe, private typeNameService: TypeNameService, private cityNameService: CityNameService) { }
+  constructor(private modalService: BsModalService, private router: Router, private recordsService: RecordsService, public datepipe: DatePipe, private typeNameService: TypeNameService, private cityNameService: CityNameService) { }
 
   modalRef: BsModalRef;
 
@@ -83,6 +84,10 @@ export class RecordsComponent implements OnInit {
 
     this.selectedRecord = selectedRecord;
 
+  }
+
+  Logout(){
+    this.router.navigate(['/login'])
   }
 
 

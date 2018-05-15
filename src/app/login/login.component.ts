@@ -3,9 +3,11 @@ import { Component, OnInit } from '@angular/core';
 // Dodatni importi
 import { ILogin } from "../Models/ILogin";
 import { LoginService } from "../Services/login.service";
+
 import { Observable } from 'rxjs/Observable';
 import { HttpClientModule } from '@angular/common/http';
 import { Http } from '@angular/http';
+import { Router } from '@angular/router';
 
 
 
@@ -16,12 +18,14 @@ import { Http } from '@angular/http';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private loginService: LoginService) { }
+  constructor(private loginService: LoginService, private router: Router) { }
 
   public txtUsername: string = "";
   public txtPassword: string = "";
 
   public login: ILogin[] = [];
+
+  
 
   Login(username: string, password: string): void {
     this.txtUsername = username;
@@ -32,10 +36,13 @@ export class LoginComponent implements OnInit {
         this.login = data;
         if(this.login.length != 0){
           console.log("Ulogovan");
+          this.router.navigate(['/main']);
         }else{
           console.log("Nije");
         }
       });
+
+      
 
       
 

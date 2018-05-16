@@ -178,3 +178,38 @@
 	position:relative;
 	top:1px;
 }
+
+.person{
+	position: absolute;
+	top: 10px;
+}
+
+.appartment{
+	position: absolute;
+	left: 40%;
+	top: 10px;
+}
+
+.owner{
+	position: absolute;
+	text-align: right;
+	left: 80%;
+	top: 10px;
+}
+
+#modal-main{
+	border-radius: 0px 0px 5px 5px;
+	min-height: 300px;
+	background: -webkit-linear-gradient(45deg,#232c3b 10%, #94b0e0 );
+    background: -webkit-linear-gradient(left,#232c3b 60%, #94b0e0);
+	background: linear-gradient(45deg,#232c3b 10%, #94b0e0 );
+	color: #d4d3d3;
+}
+
+#modal-head {
+	border-radius: 5px 5px 0px 0px;
+    background: -webkit-linear-gradient(45deg,#232c3b 10%, #94b0e0 );
+    background: -webkit-linear-gradient(left,#232c3b 60%, #94b0e0);
+	background: linear-gradient(45deg,#232c3b 10%, #94b0e0 );
+	color: #d4d3d3;
+}

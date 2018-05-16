@@ -16,6 +16,9 @@ import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
+import { Router } from '@angular/router';
+import { LogedUserService } from '../Services/loged-user.service';
+import { ILogin } from '../Models/ILogin';
 
 @Component({
   selector: 'app-records',
@@ -24,7 +27,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 })
 export class RecordsComponent implements OnInit {
 
-  constructor(private modalService: BsModalService, private recordsService: RecordsService, public datepipe: DatePipe, private typeNameService: TypeNameService, private cityNameService: CityNameService) { }
+  constructor(private modalService: BsModalService,private logedUserService: LogedUserService, private router: Router, private recordsService: RecordsService, public datepipe: DatePipe, private typeNameService: TypeNameService, private cityNameService: CityNameService) { }
 
   modalRef: BsModalRef;
 
@@ -41,6 +44,8 @@ export class RecordsComponent implements OnInit {
 
   public typeNames: ITypeName[] = [];
 
+  public users: ILogin[] = [];
+
   public filteredApartmentType: string = "";//pokupljen select sa fronta iz dropdown-a!
 
   public listOfApartmentTypes: string[] = [];
@@ -53,6 +58,8 @@ export class RecordsComponent implements OnInit {
   public filteredDate: string;
 
   public detailRecord: string;
+
+  public user: ILogin = null;
 
   today: Date;
   public todayString: string;
@@ -75,6 +82,7 @@ export class RecordsComponent implements OnInit {
   date2: string;
 
 
+
   openModalWithClass(template: TemplateRef<any>, selectedRecord: IRecord) {
     this.modalRef = this.modalService.show(
       template,
@@ -83,6 +91,15 @@ export class RecordsComponent implements OnInit {
 
     this.selectedRecord = selectedRecord;
 
+  }
+
+  Trancate(){
+    this.logedUserService.truncateLogedUser().subscribe();
+  }
+
+  Logout(){
+    this.Trancate();
+    this.router.navigate(['/login'])
   }
 
 
@@ -113,6 +130,14 @@ export class RecordsComponent implements OnInit {
       .subscribe(data => {
         this.cityNames = data;
         this.listOfCityNames = JSON.parse(JSON.stringify(this.cityNames));
+      });
+  }
+
+  getLogedUser(): void {
+    this.logedUserService.getLogedUser()
+      .subscribe(data => {
+        this.users = data;
+        
       });
   }
 
@@ -178,6 +203,7 @@ export class RecordsComponent implements OnInit {
   p: number = 1;
 
   ngOnInit() {
+    this.getLogedUser();
     this.getRecords();
     this.getTypeName();
     this.getCityName();
@@ -194,6 +220,7 @@ export class RecordsComponent implements OnInit {
     this.AllDateString = this.datepipe.transform(this.AllDate, 'yyyy-MM-dd');
 
     this.applyTheme();
+
   }
 
 }

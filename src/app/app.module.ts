@@ -8,10 +8,13 @@ import { RecordsComponent } from './records/records.component';
 
 // Dodatni importi
 import { IRecord } from "../app/Models/IRecord";
+import { ILogin } from "../app/Models/ILogin";
 import { ICityName } from "../app/Models/ICityName";
 import { ITypeName } from "../app/Models/ITypeName";
 import { RecordsService } from "../app/Services/records.service";
+import { LoginService } from "../app/Services/login.service";
 import { CityNameService } from "../app/Services/city-name.service";
+import { LogedUserService } from "../app/Services/loged-user.service";
 import { TypeNameService } from "../app/Services/type-name.service";
 import { HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
@@ -23,6 +26,27 @@ import { DatePipe } from '@angular/common';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { LoginComponent } from './login/login.component'; //Za DatePicker
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { RouterModule, Routes, Router } from '@angular/router';
+import { MainComponent } from './main/main.component';
+
+const appRoutes: Routes = [
+  {path: 'login', component: LoginComponent},
+  {path: 'footer', component: FooterComponent},
+  {path: 'header', component: HeaderComponent},
+  {path: 'records', component: RecordsComponent},
+  {path: 'main', component: MainComponent},
+
+
+
+  {
+    path: '',
+    redirectTo: '/login',
+    pathMatch: 'full'
+  },
+
+  {path: '**', component: PageNotFoundComponent}
+];
 
 @NgModule({
   declarations: [
@@ -31,6 +55,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     FooterComponent,
     RecordsComponent,
     LoginComponent,
+    PageNotFoundComponent,
+    MainComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,11 +67,10 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     Ng2OrderModule, //Za sortiranje
     NgxPaginationModule,//Za paginaciju
     BsDatepickerModule.forRoot(), //Dodataka za odabir datuma
-    ModalModule.forRoot()
-
-
+    ModalModule.forRoot(),
+    RouterModule.forRoot(appRoutes)
   ],
-  providers: [RecordsService, CityNameService, TypeNameService, DatePipe],
+  providers: [RecordsService, CityNameService, TypeNameService, DatePipe, LoginService, LogedUserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

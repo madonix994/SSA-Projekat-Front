@@ -39,8 +39,8 @@
 
 
 
-          <input id="dateRangePicker" style="width: 200px" (bsValueChange)="filter()" class="form-control"
-            #drp="bsDaterangepicker" bsDaterangepicker [bsConfig]="bsConfig" placement="right" [(ngModel)]="bsRangeValue">
+          <input id="dateRangePicker" style="width: 200px" (bsValueChange)="filter()" class="form-control" #drp="bsDaterangepicker"
+            bsDaterangepicker [bsConfig]="bsConfig" placement="right" [(ngModel)]="bsRangeValue">
 
           <br>
           <!-- Prikaz filtera za filtriranje po vremenu -->
@@ -61,9 +61,15 @@
           <!-- Kraj prikaza filtera za filtriranje po vremenu -->
           <div class="row">
             <div class="col-md-12">
-              <button onclick="Reload()" id="btnReload" class="btn-info">Poništi filtere</button>
+              <button type="reset" id="btnReload" class="btn-info">Poništi filtere</button>
             </div>
           </div>
+
+          <div class="row">
+              <div class="col-md-12">
+                <button (click)="Logout()" id="btnReload" class="btn-info">Logout</button>
+              </div>
+            </div>
 
           <br>
 
@@ -116,10 +122,9 @@
               <td>{{record.Date_Time | date:"HH:mm"}}</td>
               <td>
                 <!-- <button [(ngModel)]="detailRecord" [value]="record.Record_Id" (click)="detailFilter();openModalWithClass(template)" class="btnDetails">Detaljnije</button> -->
-                
-                  <input type="button" value="Detaljnije"  (click)="openModalWithClass(template, record)"
-                    id="btnDetails">
-                
+
+                <input type="button" value="Detaljnije" (click)="openModalWithClass(template, record)" id="btnDetails">
+
               </td>
             </tr>
 
@@ -138,16 +143,38 @@
   </div>
 </div>
 
-<button type="button" class="btn btn-primary" (click)="openModalWithClass(template)">Open modal with custom css class</button>
-<br>
 <ng-template #template>
-  <div class="modal-header">
-    <h4 class="modal-title pull-left">Modal</h4>
+  <div class="modal-header" id="modal-head">
+    <h4 class="modal-title pull-left">Detaljnije informacije</h4>
     <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="modal-body">
-    {{selectedRecord.Person_Name}}
+  <div class="modal-body" id="modal-main">
+    <div class="person">
+      <h2>Osoba</h2>
+      Ime: {{selectedRecord.Person_Name}}
+      <br> Prezime: {{selectedRecord.Person_Surname}}
+      <br> JMBG: {{selectedRecord.JMBG}}
+      <br>
+    </div>
+    <div class="appartment">
+      <h2>Stan</h2>
+      Tip stana: {{selectedRecord.Type_Name}}
+      <br> Mesto: {{selectedRecord.City_Name}}
+      <br> Adresa: {{selectedRecord.Address}}
+      <br> Broj stana: {{selectedRecord.Apartment_Number}}
+      <br> Datum i vreme: {{selectedRecord.Date_Time}}
+      <br> Status: {{selectedRecord.Record_Status}}
+      <br>
+    </div>
+    <div class="owner">
+      <h2>Vlasnik</h2>
+      Ime: {{selectedRecord.Owner_Name}}
+      <br> Prezime: {{selectedRecord.Owner_Surname}}
+      <br> JMBG: {{selectedRecord.Owner_JMBG}}
+      <br>
+    </div>
+
   </div>
 </ng-template>

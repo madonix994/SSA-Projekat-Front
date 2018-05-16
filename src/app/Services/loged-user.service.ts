@@ -14,8 +14,16 @@ export class LogedUserService {
 
   constructor(public http: HttpClient) { }
 
-  LogedUser() : Observable<ILogin[]>
+  getLogedUser() : Observable<ILogin[]>
   {
     return this.http.get<ILogin[]>(this.serviceUrl+'/api/portal/logeduser/getuser');
+  }
+
+  insertLogedUser(user){
+    return this.http.post(this.serviceUrl + '/api/portal/logeduser/insertlogeduser', user);
+  }
+
+  truncateLogedUser(){
+    return this.http.get(this.serviceUrl + '/api/portal/logeduser/trancatelogeduser');
   }
 }

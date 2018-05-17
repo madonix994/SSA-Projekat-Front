@@ -102,7 +102,8 @@
 	background-color: #94b0e0;
 	color: black;
 	border-color: #232c3b;
-	border-radius: 10px;  
+	border-radius: 10px;
+	margin-top: 5px;  
 }
 #navbar::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
     color: black;
@@ -117,7 +118,12 @@
     color: black;
 }
 
-
+#dateRangePicker
+{
+	margin-top: 5px;
+	width: 100%;
+	color: black;
+}
 
 #dateRangePicker::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
     color: black;
@@ -132,10 +138,12 @@
 #apartmentType
 {
 	color: black;
+	margin-top: 5px;
 }
 #cityName
 {
 	color: black;
+	margin-top: 5px;
 }
 .radio
 {
@@ -212,4 +220,9 @@
     background: -webkit-linear-gradient(left,#232c3b 60%, #94b0e0);
 	background: linear-gradient(45deg,#232c3b 10%, #94b0e0 );
 	color: #d4d3d3;
+}
+#radiobuttons
+{
+	margin-top: 5px;
+	margin-left: 25px;
 }

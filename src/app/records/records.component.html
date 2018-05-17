@@ -25,13 +25,14 @@
       </div>
       <div class="row">
         <div class="col-md-12" id="records-filter">
+          
           <input id="navbar" class="form-control" type="text" name="search" placeholder="Pretražite..." [(ngModel)]="searchfilter">
 
           <select id="apartmentType" class="form-control" [(ngModel)]="filteredApartmentType" (change)="filter()">
             <option value="" selected disabled hidden>Odaberite tip stana</option>
             <option *ngFor="let a of listOfApartmentTypes" [value]="a.Type_Name">{{a.Type_Name}}</option>
           </select>
-          <br>
+          
           <select id="cityName" class="form-control" [(ngModel)]="filteredCityName" (change)="filter()">
             <option value="" selected disabled hidden>Odaberite grad</option>
             <option *ngFor="let a of listOfCityNames" [value]="a.City_Name">{{a.City_Name}}</option>
@@ -39,12 +40,12 @@
 
 
 
-          <input id="dateRangePicker" style="width: 200px" (bsValueChange)="filter()" class="form-control" #drp="bsDaterangepicker"
+          <input id="dateRangePicker" (bsValueChange)="filter()" placeholder="Odaberite datume" class="form-control" #drp="bsDaterangepicker"
             bsDaterangepicker [bsConfig]="bsConfig" placement="right" [(ngModel)]="bsRangeValue">
 
-          <br>
+          
           <!-- Prikaz filtera za filtriranje po vremenu -->
-          <div class="radio">
+          <div class="radio" id="radiobuttons">
             <label>
               <input type="radio" (change)="filter()" [(ngModel)]="filteredDate" [value]="AllDateString">Sve</label>
             <br>
@@ -52,22 +53,22 @@
               <input type="radio" (change)="filter()" [(ngModel)]="filteredDate" [value]="todayString">Danas</label>
             <br>
             <label>
-              <input type="radio" (change)="filter()" [(ngModel)]="filteredDate" [value]="weekString">Poslednje nedelje</label>
+              <input type="radio" (change)="filter()" [(ngModel)]="filteredDate" [value]="weekString">Poslednjih 7 dana</label>
             <br>
             <label>
-              <input type="radio" (change)="filter()" [(ngModel)]="filteredDate" [value]="monthString">Poslednjeg meseca</label>
+              <input type="radio" (change)="filter()" [(ngModel)]="filteredDate" [value]="monthString">Poslednjih 30 dana</label>
 
           </div>
           <!-- Kraj prikaza filtera za filtriranje po vremenu -->
           <div class="row">
             <div class="col-md-12">
-              <button type="reset" id="btnReload" class="btn-info">Poništi filtere</button>
+              <button type="reset" style="margin-top: 5px" id="btnReload" class="btn-info">Poništi filtere</button>
             </div>
           </div>
 
           <div class="row">
               <div class="col-md-12">
-                <button (click)="Logout()" id="btnReload" class="btn-info">Logout</button>
+                <button (click)="Logout()" style="margin-top: 5px" id="btnReload" class="btn-info">Logout</button>
               </div>
             </div>
 

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 
 // Dodatni importi
 import { IRecord } from "../Models/IRecord";
@@ -19,17 +19,15 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { Router } from '@angular/router';
 import { LogedUserService } from '../Services/loged-user.service';
 import { ILogin } from '../Models/ILogin';
-import { Placeholder } from '@angular/compiler/src/i18n/i18n_ast';
-import {  } from "../OnDestroy";
-
 
 @Component({
-  selector: 'app-records',
-  templateUrl: './records.component.html',
-  styleUrls: ['./records.component.css']
+  selector: 'app-alldata',
+  templateUrl: './alldata.component.html',
+  styleUrls: ['./alldata.component.css']
 })
-export class RecordsComponent implements OnInit {
+export class AlldataComponent implements OnInit {
 
+ 
   constructor(private modalService: BsModalService, private logedUserService: LogedUserService, private router: Router, private recordsService: RecordsService, public datepipe: DatePipe, private typeNameService: TypeNameService, private cityNameService: CityNameService) { }
 
   modalRef: BsModalRef;
@@ -74,8 +72,6 @@ export class RecordsComponent implements OnInit {
   AllDate: Date;
   public AllDateString: string;
 
-  public searchfilter: string;
-
   colorTheme = 'theme-dark-blue';
   bsConfig: Partial<BsDatepickerConfig>;
   bsValue = new Date();
@@ -84,9 +80,7 @@ export class RecordsComponent implements OnInit {
   date1: string;
   date2: string;
 
-  public Owner_Name: string = "";
-  public Owner_Surname: string = "";
-  public Owner_Number_of_apartments: number = 0;
+
 
   openModalWithClass(template: TemplateRef<any>, selectedRecord: IRecord) {
     this.modalRef = this.modalService.show(
@@ -118,19 +112,9 @@ export class RecordsComponent implements OnInit {
       .subscribe(data => {
         this.records = data;
         this.filteredRecords = JSON.parse(JSON.stringify(this.records));
-        for (let record of this.records) {
-          if (record.Owner_Surname === this.users[0].Surname) {
-            this.filteredRecords = JSON.parse(JSON.stringify(
-              this.filteredRecords.filter(r => r.Owner_Surname === this.users[0].Surname)));
-              this.Owner_Number_of_apartments = this.filteredRecords.length;
-          }
-        }
-
+       
       });
-
-    
   }
-
 
 
   getTypeName(): void {
@@ -153,39 +137,14 @@ export class RecordsComponent implements OnInit {
     this.logedUserService.getLogedUser()
       .subscribe(data => {
         this.users = data;
-        if (!this.users) {
-          this.router.navigate(['/login']);
-        }
-
-        this.Owner_Name = this.users[0].Name;
-        this.Owner_Surname = this.users[0].Surname;
 
       });
   }
 
 
-  ClearFilters() {
-    this.filteredRecords = this.records;
-    for (let record of this.records) {
-      if (record.Owner_Surname === this.users[0].Surname) {
-        this.filteredRecords = JSON.parse(JSON.stringify(
-          this.filteredRecords.filter(r => r.Owner_Surname === this.users[0].Surname)));
 
-      }
-    }
-    this.filteredDate = undefined;
-    this.bsRangeValue = undefined;
-    this.searchfilter = undefined;
-  }
   filter() {
     this.filteredRecords = this.records;
-    for (let record of this.records) {
-      if (record.Owner_Surname === this.users[0].Surname) {
-        this.filteredRecords = JSON.parse(JSON.stringify(
-          this.filteredRecords.filter(r => r.Owner_Surname === this.users[0].Surname)));
-
-      }
-    }
     if (this.filteredApartmentType) {
       this.filteredRecords = JSON.parse(JSON.stringify(
         this.filteredRecords.filter(r => r.Type_Name === this.filteredApartmentType)));
@@ -264,9 +223,5 @@ export class RecordsComponent implements OnInit {
 
   }
 
-  //ngOnDestroy() { 
-   // this.Trancate();
- // }
- 
 
 }

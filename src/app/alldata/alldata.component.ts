@@ -34,6 +34,7 @@ import { OwnersService } from "../Services/owners.service";
 })
 export class AlldataComponent implements OnInit {
 
+  public test: string; 
 
   constructor(private ownersService: OwnersService, private modalService: BsModalService, private logedUserService: LogedUserService, private router: Router, private recordsService: RecordsService, public datepipe: DatePipe, private typeNameService: TypeNameService, private cityNameService: CityNameService, private citiesService: CitiesService) { }
 

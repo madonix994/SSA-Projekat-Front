@@ -60,13 +60,18 @@ export class LoginComponent implements OnInit {
           this.logedUserService.insertLogedUser(this.user)
             .subscribe(user => this.login.push(this.user));
           if (this.user.Username == "Admin" && this.user.Password == "Admin") {
-            this.router.navigate(['/adminmain']);
+            
+            setTimeout(() => 
+            {
+              this.router.navigate(['/adminmain']);
+            },
+            2000);
           } else {
             setTimeout(() => 
             {
                 this.router.navigate(['/main']);
             },
-            2800);
+            2000);
           }
         } else {
           // this.message = "Podaci nisu tacni";

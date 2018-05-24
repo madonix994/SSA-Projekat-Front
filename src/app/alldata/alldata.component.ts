@@ -19,6 +19,13 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { Router } from '@angular/router';
 import { LogedUserService } from '../Services/loged-user.service';
 import { ILogin } from '../Models/ILogin';
+import { CitiesService } from "../Services/cities.service";
+import { ICity } from '../Models/ICity';
+import { IOwner } from "../Models/IOwner";
+import { OwnersService } from "../Services/owners.service";
+
+
+
 
 @Component({
   selector: 'app-alldata',
@@ -27,8 +34,8 @@ import { ILogin } from '../Models/ILogin';
 })
 export class AlldataComponent implements OnInit {
 
- 
-  constructor(private modalService: BsModalService, private logedUserService: LogedUserService, private router: Router, private recordsService: RecordsService, public datepipe: DatePipe, private typeNameService: TypeNameService, private cityNameService: CityNameService) { }
+
+  constructor(private ownersService: OwnersService, private modalService: BsModalService, private logedUserService: LogedUserService, private router: Router, private recordsService: RecordsService, public datepipe: DatePipe, private typeNameService: TypeNameService, private cityNameService: CityNameService, private citiesService: CitiesService) { }
 
   modalRef: BsModalRef;
 
@@ -38,6 +45,7 @@ export class AlldataComponent implements OnInit {
 
   public selectedRecord: IRecord;
 
+  public selectedCity: ICity;
 
   public filteredRecords: IRecord[] = [];
 
@@ -60,26 +68,28 @@ export class AlldataComponent implements OnInit {
 
   public detailRecord: string;
 
-  today: Date;
-  public todayString: string;
+  public cities: ICity[] = [];
 
-  week: Date;
-  public weekString: string;
+  public txtCity_Name: string = "";
+  public txtPpt: number;
 
-  month: Date;
-  public monthString: string;
+  public txtOwner_Name: string = "";
+  public txtOwner_Surname: string = "";
+  public txtOwner_Username: string = "";
+  public txtOwner_Password: string = "";
+  public txtOwner_JMBG: string = "";
+  public txtOwner_Card_Number: number;
 
-  AllDate: Date;
-  public AllDateString: string;
 
-  colorTheme = 'theme-dark-blue';
-  bsConfig: Partial<BsDatepickerConfig>;
-  bsValue = new Date();
-  maxDate: Date = new Date();
-  bsRangeValue: Date[];
-  date1: string;
-  date2: string;
 
+
+
+
+
+  public insertCity: ICity = null;
+
+  public owners: IOwner[] = [];
+  public insertOwner: IOwner = null; 
 
 
   openModalWithClass(template: TemplateRef<any>, selectedRecord: IRecord) {
@@ -89,9 +99,82 @@ export class AlldataComponent implements OnInit {
     );
 
     this.selectedRecord = selectedRecord;
+  }
+
+  openModalWithClassCity(templateCity: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(
+      templateCity,
+      Object.assign({}, { class: 'gray modal-lg' })
+    );
+
+  }
+  openModalWithClassOwner(templateCity: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(
+      templateCity,
+      Object.assign({}, { class: 'gray modal-lg' })
+    );
 
   }
 
+  
+
+  insertCities(txtCity_Name: string, txtPpt: number) {
+
+    if (txtCity_Name && txtPpt) {
+
+      const newCity = <ICity>{
+        City_Name: txtCity_Name,
+        Ppt: txtPpt
+      }
+      this.insertCity = newCity;
+      if (this.insertCity) {
+        this.citiesService.insertCities(this.insertCity)
+          .subscribe(insertCity => this.cities.push(this.insertCity));
+        this.txtCity_Name = undefined;
+        this.txtPpt = undefined;
+        this.insertCity = undefined;
+        window.location.reload();
+      }
+
+    }
+
+
+  }
+
+
+  insertOwners(txtOwner_Name: string, txtOwner_Surname: string, txtOwner_JMBG: string, txtOwner_Card_Number: number, txtOwner_Username: string, txtOwner_Password: string) {
+
+    if (txtOwner_Name && txtOwner_Surname && txtOwner_JMBG && txtOwner_Card_Number && txtOwner_Username && txtOwner_Password) {
+
+      const newOwner = <IOwner>{
+        Name: txtOwner_Name,
+        Surname: txtOwner_Surname,
+        Jmbg: txtOwner_JMBG,
+        Card_Number: txtOwner_Card_Number,
+        Username: txtOwner_Username,
+        Password: txtOwner_Password
+
+      }
+      this.insertOwner = newOwner;
+      if (this.insertOwner) {
+        this.ownersService.insertOwners(this.insertOwner)
+          .subscribe(insertOwner => this.owners.push(this.insertOwner));
+        this.txtOwner_Name = undefined;
+        this.txtOwner_Surname = undefined;
+        this.txtOwner_JMBG = undefined;
+        this.txtOwner_Card_Number = undefined;
+        this.txtOwner_Username = undefined;
+        this.txtOwner_Password = undefined;
+
+
+        this.insertOwner = undefined;
+        window.location.reload();
+      }
+
+    }
+
+
+  }
   Trancate() {
     this.logedUserService.truncateLogedUser().subscribe();
   }
@@ -102,17 +185,12 @@ export class AlldataComponent implements OnInit {
   }
 
 
-  applyTheme() {
-    this.bsConfig = Object.assign({}, { containerClass: this.colorTheme });
-  }
-
-
   getRecords(): void {
     this.recordsService.getRecords()
       .subscribe(data => {
         this.records = data;
         this.filteredRecords = JSON.parse(JSON.stringify(this.records));
-       
+
       });
   }
 
@@ -133,94 +211,46 @@ export class AlldataComponent implements OnInit {
       });
   }
 
+  getCities(): void {
+    this.citiesService.getCities()
+      .subscribe(data => {
+        this.cities = data;
+      });
+  }
+  getOwners(): void {
+    this.ownersService.getOwners()
+      .subscribe(data => {
+        this.owners = data;
+      });
+  }
+
   getLogedUser(): void {
     this.logedUserService.getLogedUser()
       .subscribe(data => {
         this.users = data;
 
+        if (!this.users) {
+          this.router.navigate(['/login']);
+        }
+
       });
   }
 
-
-
-  filter() {
-    this.filteredRecords = this.records;
-    if (this.filteredApartmentType) {
-      this.filteredRecords = JSON.parse(JSON.stringify(
-        this.filteredRecords.filter(r => r.Type_Name === this.filteredApartmentType)));
-    }
-    if (this.filteredCityName) {
-      this.filteredRecords = JSON.parse(JSON.stringify(
-        this.filteredRecords.filter(r => r.City_Name === this.filteredCityName)));
-    }
-    if (this.filteredDate === this.todayString) {
-      this.filteredRecords = JSON.parse(JSON.stringify(
-        this.filteredRecords.filter(r => r.Date_Time.substr(0, 10) === this.todayString)));
-    }
-    if (this.filteredDate === this.weekString) {
-      this.filteredRecords = JSON.parse(JSON.stringify(
-        this.filteredRecords.filter(r => r.Date_Time.substr(0, 10) >= this.weekString)));
-    }
-    if (this.filteredDate === this.monthString) {
-      this.filteredRecords = JSON.parse(JSON.stringify(
-        this.filteredRecords.filter(r => r.Date_Time.substr(0, 10) >= this.monthString)));
-    }
-    if (this.filteredDate === this.AllDateString) {
-      this.filteredRecords = JSON.parse(JSON.stringify(
-        this.filteredRecords.filter(r => r.Date_Time.substr(0, 10) >= this.AllDateString)));
-    }
-    if (this.bsRangeValue) {
-      this.bsValue = new Date();
-      this.bsValue = this.bsRangeValue[0];
-      this.date1 = this.datepipe.transform(this.bsValue, 'yyyy-MM-dd');
-      this.maxDate = new Date();
-      this.maxDate = this.bsRangeValue[1];
-      this.date2 = this.datepipe.transform(this.maxDate, 'yyyy-MM-dd');
-
-      this.filteredRecords = JSON.parse(JSON.stringify(
-        this.filteredRecords.filter(r => r.Date_Time.substr(0, 10) >= this.date1 && r.Date_Time.substr(0, 10) <= this.date2)));
-
-    }
-
-  }
-
-
-
-
-
-
-  //Za sortiranje
-  public key: string;
-  reverse: boolean = false;
-  sort(key) {
-    if (key == "Person_Name" || key == "Person_Surname" || key == "City_Name" || "Date_Time") {
-      this.key = key;
-      this.reverse = !this.reverse;
-    }
-  }
 
   //Za paginaciju
   p: number = 1;
 
   ngOnInit() {
     this.getLogedUser();
+    setTimeout(() => {
+      this.getRecords();
+    },
+      1000);
     this.getRecords();
     this.getTypeName();
     this.getCityName();
-    this.today = new Date();
-    this.todayString = this.datepipe.transform(this.today, 'yyyy-MM-dd');
-    this.week = new Date();
-    this.week.setDate(this.week.getDate() - 7);
-    this.weekString = this.datepipe.transform(this.week, 'yyyy-MM-dd');
-    this.month = new Date();
-    this.month.setDate(this.month.getDate() - 30);
-    this.monthString = this.datepipe.transform(this.month, 'yyyy-MM-dd');
-    this.AllDate = new Date();
-    this.AllDate.setDate(this.AllDate.getDay() - 15000);
-    this.AllDateString = this.datepipe.transform(this.AllDate, 'yyyy-MM-dd');
-
-    this.applyTheme();
-
+    this.getCities();
+    this.getOwners();
   }
 
 

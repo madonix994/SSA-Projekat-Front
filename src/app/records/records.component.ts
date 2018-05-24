@@ -245,7 +245,12 @@ export class RecordsComponent implements OnInit {
 
   ngOnInit() {
     this.getLogedUser();
-    this.getRecords();
+    setTimeout(() => 
+            {
+              this.getRecords();
+            },
+            1000);
+        
     this.getTypeName();
     this.getCityName();
     this.today = new Date();

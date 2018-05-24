@@ -31,6 +31,10 @@ import { RouterModule, Routes, Router } from '@angular/router';
 import { MainComponent } from './main/main.component';
 import { AdminmainComponent } from './adminmain/adminmain.component';
 import { AlldataComponent } from './alldata/alldata.component';
+import { ApartmentsService } from "../app/Services/apartments.service";
+import { CitiesService } from "../app/Services/cities.service";
+import { OwnersService } from "../app/Services/owners.service";
+import { IOwner } from "../app/Models/IOwner";
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -71,7 +75,7 @@ const appRoutes: Routes = [
     ModalModule.forRoot(),
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [RecordsService, CityNameService, TypeNameService, DatePipe, LoginService, LogedUserService],
+  providers: [RecordsService, CityNameService, TypeNameService, DatePipe, LoginService, LogedUserService, ApartmentsService, CitiesService, OwnersService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

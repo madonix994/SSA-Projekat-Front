@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 
 // Dodatni importi
 import { ILogin } from "../Models/ILogin";
@@ -9,6 +9,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { Http } from '@angular/http';
 import { Router } from '@angular/router';
 import { LogedUserService } from '../Services/loged-user.service';
+import { BsModalService } from 'ngx-bootstrap/modal/bs-modal.service';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 
 
@@ -19,7 +21,9 @@ import { LogedUserService } from '../Services/loged-user.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private loginService: LoginService,private logedUserService: LogedUserService, private router: Router) { }
+  constructor(private modalService: BsModalService, private loginService: LoginService, private logedUserService: LogedUserService, private router: Router) { }
+
+  modalRef: BsModalRef;
 
   public txtUsername: string = "";
   public txtPassword: string = "";
@@ -30,6 +34,19 @@ export class LoginComponent implements OnInit {
 
   public message: string = "";
 
+
+  openModalWithClass(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(
+      template,
+      Object.assign({}, { class: 'gray modal-lg' })
+    );
+
+
+  }
+
+
+
+
   Login(username: string, password: string): void {
     this.txtUsername = username;
     this.txtPassword = password;
@@ -37,28 +54,37 @@ export class LoginComponent implements OnInit {
     this.loginService.Login(this.txtUsername, this.txtPassword)
       .subscribe(data => {
         this.login = data;
-        if(this.login.length != 0){
+        if (this.login.length != 0) {
           console.log("Ulogovan");
           this.user = this.login[0];
           this.logedUserService.insertLogedUser(this.user)
-          .subscribe(user => this.login.push(this.user));
-          this.router.navigate(['/main']);
-        }else{
-          this.message = "Podaci nisu tacni";
+            .subscribe(user => this.login.push(this.user));
+          if (this.user.Username == "Admin" && this.user.Password == "Admin") {
+            this.router.navigate(['/adminmain']);
+          } else {
+            setTimeout(() => 
+            {
+                this.router.navigate(['/main']);
+            },
+            2800);
+          }
+        } else {
+          // this.message = "Podaci nisu tacni";
+
+         // this.openModal(template)
+
         }
       });
 
-      
+  }
 
-      
-
-
-
+  Trancate() {
+    this.logedUserService.truncateLogedUser().subscribe();
   }
 
 
   ngOnInit() {
-
+    this.Trancate();
   }
 
 }

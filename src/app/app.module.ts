@@ -21,7 +21,7 @@ import { HttpModule } from '@angular/http';
 import { FormsModule } from "@angular/forms";
 import { Ng2SearchPipeModule } from 'ng2-search-filter'; //Za pretragu
 import { Ng2OrderModule } from 'ng2-order-pipe'; //Za sortiranje
-import {NgxPaginationModule} from 'ngx-pagination'; // Za paginaciju
+import { NgxPaginationModule } from 'ngx-pagination'; // Za paginaciju
 import { DatePipe } from '@angular/common';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { LoginComponent } from './login/login.component'; //Za DatePicker
@@ -29,14 +29,13 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { RouterModule, Routes, Router } from '@angular/router';
 import { MainComponent } from './main/main.component';
+import { AdminmainComponent } from './adminmain/adminmain.component';
+import { AlldataComponent } from './alldata/alldata.component';
 
 const appRoutes: Routes = [
-  {path: 'login', component: LoginComponent},
-  {path: 'footer', component: FooterComponent},
-  {path: 'header', component: HeaderComponent},
-  {path: 'records', component: RecordsComponent},
-  {path: 'main', component: MainComponent},
-
+  { path: 'login', component: LoginComponent },
+  { path: 'main', component: MainComponent },
+  { path: 'adminmain', component: AdminmainComponent },
 
 
   {
@@ -45,7 +44,7 @@ const appRoutes: Routes = [
     pathMatch: 'full'
   },
 
-  {path: '**', component: PageNotFoundComponent}
+  { path: '**', component: PageNotFoundComponent }
 ];
 
 @NgModule({
@@ -57,6 +56,8 @@ const appRoutes: Routes = [
     LoginComponent,
     PageNotFoundComponent,
     MainComponent,
+    AdminmainComponent,
+    AlldataComponent,
   ],
   imports: [
     BrowserModule,

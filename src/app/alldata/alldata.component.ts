@@ -26,6 +26,7 @@ import { OwnersService } from "../Services/owners.service";
 import { IType } from "../Models/IType";
 import { TypeService } from "../Services/type.service";
 import { IApartments } from "../Models/IApartment";
+import { IApartmentjoin } from "../Models/IApartmentjoin";
 import { ApartmentsService } from "../Services/apartments.service";
 
 
@@ -35,6 +36,7 @@ import { ApartmentsService } from "../Services/apartments.service";
   styleUrls: ['./alldata.component.css']
 })
 export class AlldataComponent implements OnInit {
+
 
   public test: string;
 
@@ -99,14 +101,18 @@ export class AlldataComponent implements OnInit {
   public owners: IOwner[] = [];
   public insertOwner: IOwner = null;
 
+  public selectedOwner: IOwner;
+  public updateOwner: IOwner = null;
+
   public txtType_Name: string = "";
 
   public apartments: IApartments[] = [];
+  public apartmentsjoin: IApartmentjoin[] = [];
 
   public txtAddress: string = "";
-  public txtApartmentNumber: number;s
+  public txtApartmentNumber: number; s
 
-
+  public deleteID: number;
   openModalWithClass(template: TemplateRef<any>, selectedRecord: IRecord) {
     this.modalRef = this.modalService.show(
       template,
@@ -146,7 +152,16 @@ export class AlldataComponent implements OnInit {
     );
 
   }
+  openModalWithClassOwnerUpdate(templateOwnerUpdate: TemplateRef<any>, selectedOwner: IOwner) {
+    this.selectedOwner = selectedOwner;
 
+    this.modalRef = this.modalService.show(
+      templateOwnerUpdate,
+      Object.assign({}, { class: 'gray modal-lg' })
+
+    )
+
+  }
 
   insertCities(txtCity_Name: string, txtPpt: number) {
 
@@ -163,7 +178,10 @@ export class AlldataComponent implements OnInit {
         this.txtCity_Name = undefined;
         this.txtPpt = undefined;
         this.insertCity = undefined;
-        window.location.reload();
+        setTimeout(() => {
+          window.location.reload();
+        },
+          500);
       }
 
     }
@@ -198,13 +216,49 @@ export class AlldataComponent implements OnInit {
 
 
         this.insertOwner = undefined;
-        window.location.reload();
+        setTimeout(() => {
+          window.location.reload();
+        },
+          500);
       }
 
     }
 
 
   }
+
+  updateOwners(txtOwner_Name: string, txtOwner_Surname: string, txtOwner_JMBG: string, txtOwner_Card_Number: number, txtOwner_Username: string, txtOwner_Password: string) {
+
+    const newOwner = <IOwner>{
+      Name: txtOwner_Name,
+      Surname: txtOwner_Surname,
+      Jmbg: txtOwner_JMBG,
+      Card_Number: txtOwner_Card_Number,
+      Username: txtOwner_Username,
+      Password: txtOwner_Password
+
+    }
+    this.updateOwner = newOwner;
+    if (this.updateOwner) {
+     // this.ownersService.updateOwners(this.updateOwner).subscribe();
+      this.txtOwner_Name = undefined;
+      this.txtOwner_Surname = undefined;
+      this.txtOwner_JMBG = undefined;
+      this.txtOwner_Card_Number = undefined;
+      this.txtOwner_Username = undefined;
+      this.txtOwner_Password = undefined;
+
+
+      this.updateOwner = undefined;
+      setTimeout(() => {
+        window.location.reload();
+      },
+        500);
+    }
+
+  }
+
+
 
   insertTypes(txtType_Name: string) {
 
@@ -219,7 +273,10 @@ export class AlldataComponent implements OnInit {
           .subscribe(insertType => this.types.push(this.insertType));
         this.txtType_Name = undefined;
         this.insertType = undefined;
-        window.location.reload();
+        setTimeout(() => {
+          window.location.reload();
+        },
+          500);
       }
 
     }
@@ -227,6 +284,54 @@ export class AlldataComponent implements OnInit {
 
   }
 
+  deleteTypes(type: IType) {
+    this.deleteID = type.Type_Id;
+    if (this.deleteID) {
+      this.typeService.deleteTypes(this.deleteID).subscribe();
+      this.deleteID = undefined;
+      setTimeout(() => {
+        window.location.reload();
+      },
+        500);
+
+    }
+  }
+  deleteOwner(owner: IOwner) {
+    this.deleteID = owner.Owner_Id;
+    if (this.deleteID) {
+      this.ownersService.deleteOwner(this.deleteID).subscribe();
+      this.deleteID = undefined;
+      setTimeout(() => {
+        window.location.reload();
+      },
+        500);
+
+    }
+  }
+  deleteCity(city: ICity) {
+    this.deleteID = city.City_Id;
+    if (this.deleteID) {
+      this.citiesService.deleteCity(this.deleteID).subscribe();
+      this.deleteID = undefined;
+      setTimeout(() => {
+        window.location.reload();
+      },
+        500);
+
+    }
+  }
+  deleteApartments(apartment: IApartments) {
+    this.deleteID = apartment.Apartment_Id;
+    if (this.deleteID) {
+      this.apartmentService.deleteApartments(this.deleteID).subscribe();
+      this.deleteID = undefined;
+      setTimeout(() => {
+        window.location.reload();
+      },
+        500);
+
+    }
+  }
 
   insertApartments(txtAddress: string, txtApartmentNumber: number, filteredApartmentType: number, filteredCityName: number, filteredOwnerName: number) {
 
@@ -250,7 +355,10 @@ export class AlldataComponent implements OnInit {
         this.filteredCityName = undefined;
         this.filteredOwnerName = undefined;
         this.insertApartment = undefined;
-        window.location.reload();
+        setTimeout(() => {
+          window.location.reload();
+        },
+          500);
       }
 
     }
@@ -336,7 +444,6 @@ export class AlldataComponent implements OnInit {
       this.getRecords();
     },
       1000);
-    this.getRecords();
     this.getCities();
     this.getOwners();
     this.getTypes();

@@ -21,4 +21,15 @@ export class OwnersService {
   insertOwners(owner){
     return this.http.post(this.serviceUrl + '/api/portal/owners/insertowner', owner);
   }
+
+  updateOwners()
+  {
+
+    // deleted
+
+  }
+  
+  deleteOwner(Owner_id) {
+    return this.http.get(this.serviceUrl + '/api/portal/owners/deleteowner/' + Owner_id);
+  }
 }

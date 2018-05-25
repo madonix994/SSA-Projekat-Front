@@ -13,14 +13,16 @@ export class TypeService {
 
   constructor(public http: HttpClient) { }
 
-  getTypes() : Observable<IType[]>
-  {
-    return this.http.get<IType[]>(this.serviceUrl+'/api/portal/types/getalltypes');
+  getTypes(): Observable<IType[]> {
+    return this.http.get<IType[]>(this.serviceUrl + '/api/portal/types/getalltypes');
   }
 
-  insertTypes(type){
+  insertTypes(type) {
     return this.http.post(this.serviceUrl + '/api/portal/types/inserttypes', type);
   }
 
+  deleteTypes(type_id) {
+    return this.http.get(this.serviceUrl + '/api/portal/types/deletetype/' + type_id);
+  }
 
 }

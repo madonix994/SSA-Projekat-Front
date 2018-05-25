@@ -27,4 +27,8 @@ export class CitiesService {
   insertCities(city){
     return this.http.post(this.serviceUrl + '/api/portal/cities/insertcities', city);
   }
+
+  deleteCity(City_id) {
+    return this.http.get(this.serviceUrl + '/api/portal/cities/deletecities/' + City_id);
+  }
 }

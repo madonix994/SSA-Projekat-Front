@@ -6,6 +6,8 @@ import { URLSearchParams, Headers, Response, RequestOptions, Http, HttpModule } 
 import 'rxjs/add/operator/map';
 import { HttpClient } from '@angular/common/http';
 import { IApartments } from '../Models/IApartment';
+import { IApartmentjoin } from '../Models/IApartmentjoin';
+
 @Injectable()
 export class ApartmentsService {
 
@@ -13,14 +15,22 @@ export class ApartmentsService {
 
   constructor(public http: HttpClient) { }
 
-  getApartments() : Observable<IApartments[]>
-  {
-    return this.http.get<IApartments[]>(this.serviceUrl+'/api/portal/apartments/getallapartments');
+  getApartments(): Observable<IApartments[]> {
+    return this.http.get<IApartments[]>(this.serviceUrl + '/api/portal/apartments/getallapartments');
   }
 
-  
-  insertApartments(apartment){
+  getApartmentsjoin(): Observable<IApartmentjoin[]> {
+    return this.http.get<IApartmentjoin[]>(this.serviceUrl + '/api/portal/apartments/getallapartmentsjoined');
+
+  }
+
+  insertApartments(apartment) {
     return this.http.post(this.serviceUrl + '/api/portal/apartments/insertapartment', apartment);
   }
+
+  deleteApartments(Apartment_Id) {
+    return this.http.get(this.serviceUrl + '/api/portal/apartments/deleteapartment/' + Apartment_Id);
+  }
+
 
 }

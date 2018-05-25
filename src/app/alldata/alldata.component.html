@@ -58,40 +58,40 @@
     </div>
   </div>
 
-  
+
   <div class="row">
 
     <div class="col-md-5">
 
-        <br>
-        <div id="tableEvidention" class="container">
-          <div class="table-responsive">
-            <table class="table table-hover table-bordered">
-              <tr>
-                <td>Ime vlasnika
-                </td>
-                <td>JMBG
-                </td>
-                <td>Broj lične karte</td>
-                <td>Akcija</td>
-              </tr>
-              <tr *ngFor="let owner of owners">
-                <td>{{owner.Name}} {{owner.Surname}}</td>
-                <td>{{owner.JMBG}}</td>
-                <td>{{owner.Card_Number}}</td>
-                <td>
-                  <input type="button" value="Izmeni" (click)="openModalWithClassOwnerUpdate(template, owner)" id="btnDetails">
-                  <input type="button" value="Izbriši" (click)="openModalWithClassOwnerDelete(template, owner)" id="btnDetails">
+      <br>
+      <div id="tableEvidention" class="container">
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered">
+            <tr>
+              <td>Ime vlasnika
+              </td>
+              <td>JMBG
+              </td>
+              <td>Broj lične karte</td>
+              <td>Akcija</td>
+            </tr>
+            <tr *ngFor="let owner of owners">
+              <td>{{owner.Name}} {{owner.Surname}}</td>
+              <td>{{owner.JMBG}}</td>
+              <td>{{owner.Card_Number}}</td>
+              <td>
+                <input type="button" value="Izmeni" (click)="openModalWithClassOwnerUpdate(templateOwnerUpdate, owner)" id="btnDetails">
+                <input type="button" value="Izbriši" (click)="openModalWithClassOwnerDelete(templateOwnerDelete, owner)" id="btnDetails">
 
-                </td>
-              </tr>
-  
-            </table>
-            <br>
-          </div>
+              </td>
+            </tr>
+
+          </table>
+          <br>
         </div>
-  
       </div>
+
+    </div>
 
     <div class="col-md-6">
 
@@ -111,8 +111,8 @@
               <td>{{city.City_Name}}</td>
               <td>{{city.Ppt}}</td>
               <td>
-                <input type="button" value="Izmeni" (click)="openModalWithClassCityUpdate(template, city)" id="btnDetails">
-                <input type="button" value="Izbriši" (click)="openModalWithClassCityDelete(template, city)" id="btnDetails">
+                <input type="button" value="Izmeni" (click)="openModalWithClassCityUpdate(templateCityUpdate, city)" id="btnDetails">
+                <input type="button" value="Izbriši" (click)="openModalWithClassCityDelete(templateCityDelete, city)" id="btnDetails">
 
               </td>
             </tr>
@@ -124,36 +124,40 @@
 
     </div>
     <div class="col-md-1">
-      <input type="button" value="Unesi Grad" (click)="openModalWithClassCity(templateCity)" id="btnDetails">
+      <input type="button" value="Unesi grad" (click)="openModalWithClassCity(templateCity)" id="btnDetails">
       <input type="button" value="Unesi vlasnika" (click)="openModalWithClassOwner(templateOwner)" id="btnDetails">
+      <input type="button" value="Unesi tip apartmana" (click)="openModalWithClassType(templateType)" id="btnDetails">
+      <input type="button" value="Unesi Apartman" (click)="openModalWithClassApartment(templateApartmant)" id="btnDetails">
 
     </div>
 
-</div>
+  </div>
 
-<div class="row">
+  <div class="row">
 
-  <div class="col-md-5">
+    <div class="col-md-9">
 
       <br>
       <div id="tableEvidention" class="container">
         <div class="table-responsive">
           <table class="table table-hover table-bordered">
             <tr>
-              <td>Ime vlasnika
-              </td>
-              <td>JMBG
-              </td>
-              <td>Broj lične karte</td>
+              <td>Vlasnik stana</td>
+              <td>Tip apartmana</td>
+              <td>Naziv grada</td>
+              <td>Adresa</td>
+              <td>Broj stana</td>
               <td>Akcija</td>
             </tr>
-            <tr *ngFor="let owner of owners">
-              <td>{{owner.Name}} {{owner.Surname}}</td>
-              <td>{{owner.JMBG}}</td>
-              <td>{{owner.Card_Number}}</td>
+            <tr *ngFor="let apartment of apartments">
+              <td>{{apartment.Owner_Id}}</td>
+              <td>{{apartment.Type_Id}}</td>
+              <td>{{apartment.City_Id}}</td>
+              <td>{{apartment.Address}}</td>
+              <td>{{apartment.Apartment_Number}}</td>
               <td>
-                <input type="button" value="Izmeni" (click)="openModalWithClassOwnerUpdate(template, owner)" id="btnDetails">
-                <input type="button" value="Izbriši" (click)="openModalWithClassOwnerDelete(template, owner)" id="btnDetails">
+                <input type="button" value="Izmeni" (click)="openModalWithClassApartmentUpdate(templateOwnerUpdate, owner)" id="btnDetails">
+                <input type="button" value="Izbriši" (click)="openModalWithClassApartmentDelete(templateOwnerDelete, owner)" id="btnDetails">
 
               </td>
             </tr>
@@ -165,43 +169,34 @@
 
     </div>
 
-  <div class="col-md-6">
+    <div class="col-md-3">
 
-    <br>
-    <div id="tableEvidention" class="container">
-      <div class="table-responsive">
-        <table class="table table-hover table-bordered">
-          <tr>
-            <td>Naziv Grada
-            </td>
-            <td>Ppt
-            </td>
-            <td>Akcija</td>
+      <br>
+      <div id="tableEvidention" class="container">
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered">
+            <tr>
+              <td>Tip Apartmana</td>
+              <td>Akcija</td>
+            </tr>
+            <tr *ngFor="let type of types">
+              <td>{{type.Type_Name}}</td>
+              <td>
+                <input type="button" value="Izmeni" (click)="openModalWithClassTypeUpdate(templateTypeUpdate, type)" id="btnDetails">
+                <input type="button" value="Izbriši" (click)="openModalWithClassTypeDelete(templateTypeDelete, type)" id="btnDetails">
 
-          </tr>
-          <tr *ngFor="let city of cities">
-            <td>{{city.City_Name}}</td>
-            <td>{{city.Ppt}}</td>
-            <td>
-              <input type="button" value="Izmeni" (click)="openModalWithClassCityUpdate(template, city)" id="btnDetails">
-              <input type="button" value="Izbriši" (click)="openModalWithClassCityDelete(template, city)" id="btnDetails">
+              </td>
+            </tr>
 
-            </td>
-          </tr>
-
-        </table>
-        <br>
+          </table>
+          <br>
+        </div>
       </div>
+
     </div>
 
-  </div>
-  <div class="col-md-1">
-    <input type="button" value="Unesi Grad" (click)="openModalWithClassCity(templateCity)" id="btnDetails">
-    <input type="button" value="Unesi vlasnika" (click)="openModalWithClassOwner(templateOwner)" id="btnDetails">
 
   </div>
-
-</div>
 
 </div>
 
@@ -256,23 +251,72 @@
     </form>
   </div>
 </ng-template>
+
 <ng-template #templateOwner>
-    <div class="modal-header" id="modal-head">
-      <h4 class="modal-title pull-left">Detaljnije informacije</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body" id="modal-main">
-      <form>
-        <input type="text" name="owners" [(ngModel)]="txtOwner_Name" style="color:black" placeholder="Ime vlasnika">
-        <input type="text" name="owners" [(ngModel)]="txtOwner_Surname" style="color:black" placeholder="Prezime vlasnika">
-        <input type="text" name="owners" [(ngModel)]="txtOwner_JMBG" style="color:black" placeholder="JMBG vlasnika">
-        <input type="number" name="owners" [(ngModel)]="txtOwner_Card_Number" style="color:black" placeholder="Broj licne karte vlasnika">
-        <input type="text" name="owners" [(ngModel)]="txtOwner_Username" style="color:black" placeholder="Korisnicko ime vlasnika">
-        <input type="text" name="owners" [(ngModel)]="txtOwner_Password" style="color:black" placeholder="Lozinka vlasnika">
-          
-        <input type="button" (click)="insertOwners(txtOwner_Name, txtOwner_Surname, txtOwner_JMBG, txtOwner_Card_Number, txtOwner_Username, txtOwner_Password)" class="fadeIn fourth" value="Unesi" style="color:black">
-      </form>
-    </div>
-  </ng-template>
+  <div class="modal-header" id="modal-head">
+    <h4 class="modal-title pull-left">Detaljnije informacije</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" id="modal-main">
+    <form>
+      <input type="text" name="owners" [(ngModel)]="txtOwner_Name" style="color:black" placeholder="Ime vlasnika">
+      <input type="text" name="owners" [(ngModel)]="txtOwner_Surname" style="color:black" placeholder="Prezime vlasnika">
+      <input type="text" name="owners" [(ngModel)]="txtOwner_JMBG" style="color:black" placeholder="JMBG vlasnika">
+      <input type="number" name="owners" [(ngModel)]="txtOwner_Card_Number" style="color:black" placeholder="Broj licne karte vlasnika">
+      <input type="text" name="owners" [(ngModel)]="txtOwner_Username" style="color:black" placeholder="Korisnicko ime vlasnika">
+      <input type="text" name="owners" [(ngModel)]="txtOwner_Password" style="color:black" placeholder="Lozinka vlasnika">
+
+      <input type="button" (click)="insertOwners(txtOwner_Name, txtOwner_Surname, txtOwner_JMBG, txtOwner_Card_Number, txtOwner_Username, txtOwner_Password)"
+        class="fadeIn fourth" value="Unesi" style="color:black">
+    </form>
+  </div>
+</ng-template>
+
+<ng-template #templateType>
+  <div class="modal-header" id="modal-head">
+    <h4 class="modal-title pull-left">Detaljnije informacije</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" id="modal-main">
+    <form>
+      <input type="text" name="types" [(ngModel)]="txtType_Name" style="color:black" placeholder="Tip apartmana">
+      <input type="button" (click)="insertTypes(txtType_Name)" class="fadeIn fourth" value="Unesi" style="color:black">
+    </form>
+  </div>
+</ng-template>
+
+<ng-template #templateApartmant>
+  <div class="modal-header" id="modal-head">
+    <h4 class="modal-title pull-left">Detaljnije informacije</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" id="modal-main">
+    <form>
+      <input type="text" name="apartments" [(ngModel)]="txtAddress" style="color:black" placeholder="Adresa apartmana">
+      <input type="number" name="apartments" [(ngModel)]="txtApartmentNumber" style="color:black" placeholder="Broj stana">
+      
+      <select id="apartmentType" class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="filteredApartmentType">
+        <option value="" selected disabled hidden>Odaberite tip stana</option>
+        <option *ngFor="let a of listOfApartmentTypes" [value]="a.Type_Id">{{a.Type_Name}}</option>
+      </select>
+     
+      <select id="cityName" class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="filteredCityName">
+        <option value="" selected disabled hidden>Odaberite grad</option>
+        <option *ngFor="let a of listOfCityNames" [value]="a.City_Id">{{a.City_Name}}</option>
+      </select>
+     
+      <select id="cityName" class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="filteredOwnerName">
+        <option value="" selected disabled hidden>Odaberite vlasnika</option>
+        <option *ngFor="let a of listOfOwners" [value]="a.Owner_Id">{{a.Name}} {{a.Surname}}</option>
+      </select>
+
+      <input type="button" (click)="insertApartments(txtAddress, txtApartmentNumber, filteredApartmentType, filteredCityName, filteredOwnerName)" class="fadeIn fourth" value="Unesi" style="color:black">
+    </form>
+  </div>
+</ng-template>

@@ -1,7 +1,5 @@
-export interface ICityName
+export interface IApartments
 {
-    City_Name: string;
-
     Apartment_Id: number,
     Address: string,
     Apartment_Number: number,

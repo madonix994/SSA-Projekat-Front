@@ -5,22 +5,22 @@ import { Observable } from 'rxjs/Observable';
 import { URLSearchParams, Headers, Response, RequestOptions, Http, HttpModule } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { HttpClient } from '@angular/common/http';
-import { IApartments } from '../Models/IApartment';
+import { IType } from '../Models/IType';
 @Injectable()
-export class ApartmentsService {
+export class TypeService {
 
   serviceUrl: string = 'http://localhost:53634'; // Konstana putanja do back-end-a
 
   constructor(public http: HttpClient) { }
 
-  getApartments() : Observable<IApartments[]>
+  getTypes() : Observable<IType[]>
   {
-    return this.http.get<IApartments[]>(this.serviceUrl+'/api/portal/apartments/getallapartments');
+    return this.http.get<IType[]>(this.serviceUrl+'/api/portal/types/getalltypes');
   }
 
-  
-  insertApartments(apartment){
-    return this.http.post(this.serviceUrl + '/api/portal/apartments/insertapartment', apartment);
+  insertTypes(type){
+    return this.http.post(this.serviceUrl + '/api/portal/types/inserttypes', type);
   }
+
 
 }

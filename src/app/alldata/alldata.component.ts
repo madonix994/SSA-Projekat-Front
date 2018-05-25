@@ -23,8 +23,10 @@ import { CitiesService } from "../Services/cities.service";
 import { ICity } from '../Models/ICity';
 import { IOwner } from "../Models/IOwner";
 import { OwnersService } from "../Services/owners.service";
-
-
+import { IType } from "../Models/IType";
+import { TypeService } from "../Services/type.service";
+import { IApartments } from "../Models/IApartment";
+import { ApartmentsService } from "../Services/apartments.service";
 
 
 @Component({
@@ -34,9 +36,9 @@ import { OwnersService } from "../Services/owners.service";
 })
 export class AlldataComponent implements OnInit {
 
-  public test: string; 
+  public test: string;
 
-  constructor(private ownersService: OwnersService, private modalService: BsModalService, private logedUserService: LogedUserService, private router: Router, private recordsService: RecordsService, public datepipe: DatePipe, private typeNameService: TypeNameService, private cityNameService: CityNameService, private citiesService: CitiesService) { }
+  constructor(private apartmentService: ApartmentsService, private typeService: TypeService, private ownersService: OwnersService, private modalService: BsModalService, private logedUserService: LogedUserService, private router: Router, private recordsService: RecordsService, public datepipe: DatePipe, private typeNameService: TypeNameService, private cityNameService: CityNameService, private citiesService: CitiesService) { }
 
   modalRef: BsModalRef;
 
@@ -56,13 +58,18 @@ export class AlldataComponent implements OnInit {
 
   public users: ILogin[] = [];
 
-  public filteredApartmentType: string = "";//pokupljen select sa fronta iz dropdown-a!
+  public filteredApartmentType: number;//pokupljen select sa fronta iz dropdown-a!
+
+  public filteredOwnerName: number;
 
   public listOfApartmentTypes: string[] = [];
 
+  public listOfOwners: string[] = [];
+
+
   public cityNames: ICityName[] = [];
 
-  public filteredCityName: string = "";
+  public filteredCityName: number;
 
   public listOfCityNames: string[] = [];
   public filteredDate: string;
@@ -81,16 +88,23 @@ export class AlldataComponent implements OnInit {
   public txtOwner_JMBG: string = "";
   public txtOwner_Card_Number: number;
 
+  public types: IType[] = [];
 
-
-
-
-
+  public insertType: IType = null;
 
   public insertCity: ICity = null;
 
+  public insertApartment: IApartments = null;
+
   public owners: IOwner[] = [];
-  public insertOwner: IOwner = null; 
+  public insertOwner: IOwner = null;
+
+  public txtType_Name: string = "";
+
+  public apartments: IApartments[] = [];
+
+  public txtAddress: string = "";
+  public txtApartmentNumber: number;s
 
 
   openModalWithClass(template: TemplateRef<any>, selectedRecord: IRecord) {
@@ -117,7 +131,22 @@ export class AlldataComponent implements OnInit {
 
   }
 
-  
+  openModalWithClassType(templateCity: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(
+      templateCity,
+      Object.assign({}, { class: 'gray modal-lg' })
+    );
+
+  }
+
+  openModalWithClassApartment(templateApartmant: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(
+      templateApartmant,
+      Object.assign({}, { class: 'gray modal-lg' })
+    );
+
+  }
+
 
   insertCities(txtCity_Name: string, txtPpt: number) {
 
@@ -176,6 +205,60 @@ export class AlldataComponent implements OnInit {
 
 
   }
+
+  insertTypes(txtType_Name: string) {
+
+    if (txtType_Name) {
+
+      const newType = <IType>{
+        Type_Name: txtType_Name
+      }
+      this.insertType = newType;
+      if (this.insertType) {
+        this.typeService.insertTypes(this.insertType)
+          .subscribe(insertType => this.types.push(this.insertType));
+        this.txtType_Name = undefined;
+        this.insertType = undefined;
+        window.location.reload();
+      }
+
+    }
+
+
+  }
+
+
+  insertApartments(txtAddress: string, txtApartmentNumber: number, filteredApartmentType: number, filteredCityName: number, filteredOwnerName: number) {
+
+    if (txtAddress && txtApartmentNumber && filteredApartmentType && filteredCityName && filteredOwnerName) {
+
+      const newApartment = <IApartments>{
+        Address: txtAddress,
+        Apartment_Number: txtApartmentNumber,
+        Type_Id: filteredApartmentType,
+        City_Id: filteredCityName,
+        Owner_Id: filteredOwnerName,
+        Status: "Slobodan"
+      }
+      this.insertApartment = newApartment;
+      if (this.insertApartment) {
+        this.apartmentService.insertApartments(this.insertApartment)
+          .subscribe(insertApartment => this.apartments.push(this.insertApartment));
+        this.txtAddress = undefined;
+        this.txtApartmentNumber = undefined;
+        this.filteredApartmentType = undefined;
+        this.filteredCityName = undefined;
+        this.filteredOwnerName = undefined;
+        this.insertApartment = undefined;
+        window.location.reload();
+      }
+
+    }
+
+
+  }
+
+
   Trancate() {
     this.logedUserService.truncateLogedUser().subscribe();
   }
@@ -196,32 +279,38 @@ export class AlldataComponent implements OnInit {
   }
 
 
-  getTypeName(): void {
-    this.typeNameService.getTypeName()
-      .subscribe(data => {
-        this.typeNames = data;
-        this.listOfApartmentTypes = JSON.parse(JSON.stringify(this.typeNames));
-      });
-  }
-
-  getCityName(): void {
-    this.cityNameService.getCityName()
-      .subscribe(data => {
-        this.cityNames = data;
-        this.listOfCityNames = JSON.parse(JSON.stringify(this.cityNames));
-      });
-  }
-
   getCities(): void {
     this.citiesService.getCities()
       .subscribe(data => {
         this.cities = data;
+        this.listOfCityNames = JSON.parse(JSON.stringify(this.cities));
+
       });
   }
+
+
+  getApartments(): void {
+    this.apartmentService.getApartments()
+      .subscribe(data => {
+        this.apartments = data;
+      });
+  }
+
+  getTypes(): void {
+    this.typeService.getTypes()
+      .subscribe(data => {
+        this.types = data;
+        this.listOfApartmentTypes = JSON.parse(JSON.stringify(this.types));
+
+      });
+  }
+
   getOwners(): void {
     this.ownersService.getOwners()
       .subscribe(data => {
         this.owners = data;
+        this.listOfOwners = JSON.parse(JSON.stringify(this.owners));
+
       });
   }
 
@@ -248,10 +337,11 @@ export class AlldataComponent implements OnInit {
     },
       1000);
     this.getRecords();
-    this.getTypeName();
-    this.getCityName();
     this.getCities();
     this.getOwners();
+    this.getTypes();
+    this.getApartments();
+
   }
 
 

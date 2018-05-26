@@ -23,7 +23,8 @@ export class LoginComponent implements OnInit {
 
   constructor(private modalService: BsModalService, private loginService: LoginService, private logedUserService: LogedUserService, private router: Router) { }
 
-  modalRef: BsModalRef;
+  public modalRef: BsModalRef;
+  public templatemsg: TemplateRef<any>;
 
   public txtUsername: string = "";
   public txtPassword: string = "";
@@ -35,11 +36,8 @@ export class LoginComponent implements OnInit {
   public message: string = "";
 
 
-  openModalWithClass(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(
-      template,
-      Object.assign({}, { class: 'gray modal-lg' })
-    );
+  openModalWithClass() {
+
 
 
   }
@@ -51,35 +49,40 @@ export class LoginComponent implements OnInit {
     this.txtUsername = username;
     this.txtPassword = password;
 
-    this.loginService.Login(this.txtUsername, this.txtPassword)
-      .subscribe(data => {
-        this.login = data;
-        if (this.login.length != 0) {
-          console.log("Ulogovan");
-          this.user = this.login[0];
-          this.logedUserService.insertLogedUser(this.user)
-            .subscribe(user => this.login.push(this.user));
-          if (this.user.Username == "Admin" && this.user.Password == "Admin") {
-            
-            setTimeout(() => 
-            {
-              this.router.navigate(['/adminmain']);
-            },
-            2000);
-          } else {
-            setTimeout(() => 
-            {
+    if (this.txtUsername && this.txtPassword) {
+      this.loginService.Login(this.txtUsername, this.txtPassword)
+        .subscribe(data => {
+          this.login = data;
+          if (this.login.length != 0) {
+            console.log("Ulogovan");
+            this.user = this.login[0];
+            this.logedUserService.insertLogedUser(this.user)
+              .subscribe(user => this.login.push(this.user));
+            if (this.user.Username == "Admin" && this.user.Password == "Admin") {
+
+              setTimeout(() => {
+                this.router.navigate(['/adminmain']);
+              },
+                2000);
+            } else {
+              setTimeout(() => {
                 this.router.navigate(['/main']);
-            },
-            2000);
+              },
+                2000);
+            }
+          } else {
+            this.message = "Podaci nisu tacni";
+
+
+
           }
-        } else {
-          // this.message = "Podaci nisu tacni";
+        });
 
-         // this.openModal(template)
+    }else
+    {
+      this.message = "Podaci nisu tacni";
 
-        }
-      });
+    }
 
   }
 

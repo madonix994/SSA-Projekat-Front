@@ -20,11 +20,15 @@ export class CitiesService {
     return this.http.get<ICity[]>(this.serviceUrl+'/api/portal/cities/getallcities');
   }
 
-  updateCity(city){
+  updateCities(city){
     return this.http.put(this.serviceUrl + '/api/portal/cities/updatecities', city);
   }
 
   insertCities(city){
     return this.http.post(this.serviceUrl + '/api/portal/cities/insertcities', city);
+  }
+
+  deleteCity(City_id) {
+    return this.http.get(this.serviceUrl + '/api/portal/cities/deletecities/' + City_id);
   }
 }

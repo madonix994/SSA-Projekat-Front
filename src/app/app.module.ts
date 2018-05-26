@@ -35,6 +35,10 @@ import { ApartmentsService } from "../app/Services/apartments.service";
 import { CitiesService } from "../app/Services/cities.service";
 import { OwnersService } from "../app/Services/owners.service";
 import { IOwner } from "../app/Models/IOwner";
+import { TypeService } from "../app/Services/type.service";
+import { IType } from "../app/Models/IType";
+import { IApartments } from "../app/Models/IApartment";
+
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -75,7 +79,7 @@ const appRoutes: Routes = [
     ModalModule.forRoot(),
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [RecordsService, CityNameService, TypeNameService, DatePipe, LoginService, LogedUserService, ApartmentsService, CitiesService, OwnersService],
+  providers: [RecordsService, CityNameService, TypeNameService, DatePipe, LoginService, LogedUserService, ApartmentsService, CitiesService, OwnersService, TypeService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { LogedUserService } from '../Services/loged-user.service';
 
 @Component({
   selector: 'app-header',

@@ -23,8 +23,11 @@ import { CitiesService } from "../Services/cities.service";
 import { ICity } from '../Models/ICity';
 import { IOwner } from "../Models/IOwner";
 import { OwnersService } from "../Services/owners.service";
-
-
+import { IType } from "../Models/IType";
+import { TypeService } from "../Services/type.service";
+import { IApartments } from "../Models/IApartment";
+import { IApartmentjoin } from "../Models/IApartmentjoin";
+import { ApartmentsService } from "../Services/apartments.service";
 
 
 @Component({
@@ -34,9 +37,10 @@ import { OwnersService } from "../Services/owners.service";
 })
 export class AlldataComponent implements OnInit {
 
-  public test: string; 
 
-  constructor(private ownersService: OwnersService, private modalService: BsModalService, private logedUserService: LogedUserService, private router: Router, private recordsService: RecordsService, public datepipe: DatePipe, private typeNameService: TypeNameService, private cityNameService: CityNameService, private citiesService: CitiesService) { }
+  public test: string;
+
+  constructor(private apartmentService: ApartmentsService, private typeService: TypeService, private ownersService: OwnersService, private modalService: BsModalService, private logedUserService: LogedUserService, private router: Router, private recordsService: RecordsService, public datepipe: DatePipe, private typeNameService: TypeNameService, private cityNameService: CityNameService, private citiesService: CitiesService) { }
 
   modalRef: BsModalRef;
 
@@ -56,13 +60,18 @@ export class AlldataComponent implements OnInit {
 
   public users: ILogin[] = [];
 
-  public filteredApartmentType: string = "";//pokupljen select sa fronta iz dropdown-a!
+  public filteredApartmentType: number;//pokupljen select sa fronta iz dropdown-a!
+
+  public filteredOwnerName: number;
 
   public listOfApartmentTypes: string[] = [];
 
+  public listOfOwners: string[] = [];
+
+
   public cityNames: ICityName[] = [];
 
-  public filteredCityName: string = "";
+  public filteredCityName: number;
 
   public listOfCityNames: string[] = [];
   public filteredDate: string;
@@ -80,18 +89,41 @@ export class AlldataComponent implements OnInit {
   public txtOwner_Password: string = "";
   public txtOwner_JMBG: string = "";
   public txtOwner_Card_Number: number;
+  public txtOwnerID: number;
+  public types: IType[] = [];
 
-
-
-
-
-
+  public insertType: IType = null;
+  public updateType: IType = null;
 
   public insertCity: ICity = null;
+  public updateCity: ICity = null;
+
+
+  public insertApartment: IApartments = null;
 
   public owners: IOwner[] = [];
-  public insertOwner: IOwner = null; 
+  public insertOwner: IOwner = null;
 
+  public selectedOwner: IOwner;
+  public updateOwner: IOwner = null;
+
+  public txtType_Name: string = "";
+
+  public apartments: IApartments[] = [];
+  public apartmentsjoin: IApartmentjoin[] = [];
+
+  public txtAddress: string = "";
+  public txtApartmentNumber: number;
+
+  public deleteID: number;
+
+  public selectedType: IType;
+  public txtTypeID: number;
+  public txtCityID: number;
+
+  public selectedApartment: IApartments;
+  public txtApartmentID: number;
+  public updateApartment: IApartments;
 
   openModalWithClass(template: TemplateRef<any>, selectedRecord: IRecord) {
     this.modalRef = this.modalService.show(
@@ -117,7 +149,58 @@ export class AlldataComponent implements OnInit {
 
   }
 
-  
+  openModalWithClassType(templateCity: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(
+      templateCity,
+      Object.assign({}, { class: 'gray modal-lg' })
+    );
+
+  }
+
+  openModalWithClassApartment(templateApartmant: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(
+      templateApartmant,
+      Object.assign({}, { class: 'gray modal-lg' })
+    );
+
+  }
+  openModalWithClassOwnerUpdate(templateOwnerUpdate: TemplateRef<any>, selectedOwner: IOwner) {
+    this.selectedOwner = selectedOwner;
+
+    this.modalRef = this.modalService.show(
+      templateOwnerUpdate,
+      Object.assign({}, { class: 'gray modal-lg' })
+
+    )
+
+  }
+  openModalWithClassTypeUpdate(templateTypeUpdate: TemplateRef<any>, selectedType: IType) {
+    this.selectedType = selectedType;
+
+    this.modalRef = this.modalService.show(
+      templateTypeUpdate,
+      Object.assign({}, { class: 'gray modal-lg' })
+
+    )
+
+  }
+  openModalWithClassCityUpdate(templateCityUpdate: TemplateRef<any>, selectedCity: ICity) {
+    this.selectedCity = selectedCity;
+    this.modalRef = this.modalService.show(
+      templateCityUpdate,
+      Object.assign({}, { class: 'gray modal-lg' })
+    )
+
+  }
+  openModalWithClassApartmentUpdate(templateApartmentUpdate: TemplateRef<any>, selectedApartment: IApartments) {
+    this.selectedApartment = selectedApartment;
+    this.modalRef = this.modalService.show(
+      templateApartmentUpdate,
+      Object.assign({}, { class: 'gray modal-lg' })
+    )
+
+  }
+
 
   insertCities(txtCity_Name: string, txtPpt: number) {
 
@@ -134,7 +217,10 @@ export class AlldataComponent implements OnInit {
         this.txtCity_Name = undefined;
         this.txtPpt = undefined;
         this.insertCity = undefined;
-        window.location.reload();
+        setTimeout(() => {
+          window.location.reload();
+        },
+          500);
       }
 
     }
@@ -142,6 +228,32 @@ export class AlldataComponent implements OnInit {
 
   }
 
+
+  updateCities(txtCityID: number, txtCity_Name: string, txtPpt: number) {
+
+    if (txtCityID && txtCity_Name && txtPpt) {
+
+      const newCity = <ICity>{
+        City_Name: txtCity_Name,
+        Ppt: txtPpt,
+        City_Id: txtCityID
+      }
+      this.updateCity = newCity;
+      if (this.updateCity) {
+        this.citiesService.updateCities(this.updateCity).subscribe(res => console.log(res));
+        this.txtCity_Name = undefined;
+        this.txtPpt = undefined;
+        this.txtCityID = undefined;
+        this.updateCity = undefined;
+
+        setTimeout(() => {
+          window.location.reload();
+        },
+          500);
+      }
+
+    }
+  }
 
   insertOwners(txtOwner_Name: string, txtOwner_Surname: string, txtOwner_JMBG: string, txtOwner_Card_Number: number, txtOwner_Username: string, txtOwner_Password: string) {
 
@@ -169,13 +281,215 @@ export class AlldataComponent implements OnInit {
 
 
         this.insertOwner = undefined;
-        window.location.reload();
+        setTimeout(() => {
+          window.location.reload();
+        },
+          500);
       }
 
     }
 
 
   }
+
+  updateOwners(txtOwnerID: number, txtOwner_Name: string, txtOwner_Surname: string, txtOwner_JMBG: string, txtOwner_Card_Number: number, txtOwner_Username: string, txtOwner_Password: string) {
+
+    const newOwner = <IOwner>{
+      Name: txtOwner_Name,
+      Surname: txtOwner_Surname,
+      Jmbg: txtOwner_JMBG,
+      Card_Number: txtOwner_Card_Number,
+      Username: txtOwner_Username,
+      Password: txtOwner_Password,
+      Owner_Id: txtOwnerID
+    }
+    this.updateOwner = newOwner;
+    if (this.updateOwner) {
+      this.ownersService.updateOwners(this.updateOwner).subscribe(res => console.log(res));
+      this.txtOwner_Name = undefined;
+      this.txtOwner_Surname = undefined;
+      this.txtOwner_JMBG = undefined;
+      this.txtOwner_Card_Number = undefined;
+      this.txtOwner_Username = undefined;
+      this.txtOwner_Password = undefined;
+      this.txtOwnerID = undefined;
+
+      this.updateOwner = undefined;
+      setTimeout(() => {
+        window.location.reload();
+      },
+        500);
+    }
+
+  }
+
+
+
+  insertTypes(txtType_Name: string) {
+
+    if (txtType_Name) {
+
+      const newType = <IType>{
+        Type_Name: txtType_Name
+      }
+      this.insertType = newType;
+      if (this.insertType) {
+        this.typeService.insertTypes(this.insertType)
+          .subscribe(insertType => this.types.push(this.insertType));
+        this.txtType_Name = undefined;
+        this.insertType = undefined;
+        setTimeout(() => {
+          window.location.reload();
+        },
+          500);
+      }
+
+    }
+
+
+  }
+  updateTypes(txtTypeID: number, txtType_Name: string) {
+
+    if (txtTypeID && txtType_Name) {
+
+      const newType = <IType>{
+        Type_Name: txtType_Name,
+        Type_Id: txtTypeID
+      }
+      this.updateType = newType;
+      if (this.updateType) {
+        this.typeService.updateTypes(this.updateType).subscribe(res => console.log(res));
+        this.txtType_Name = undefined;
+        this.txtOwnerID = undefined;
+        this.updateType = undefined;
+        setTimeout(() => {
+          window.location.reload();
+        },
+          500);
+      }
+
+    }
+
+
+  }
+
+
+  deleteTypes(type: IType) {
+    this.deleteID = type.Type_Id;
+    if (this.deleteID) {
+      this.typeService.deleteTypes(this.deleteID).subscribe();
+      this.deleteID = undefined;
+      setTimeout(() => {
+        window.location.reload();
+      },
+        500);
+
+    }
+  }
+  deleteOwner(owner: IOwner) {
+    this.deleteID = owner.Owner_Id;
+    if (this.deleteID) {
+      this.ownersService.deleteOwner(this.deleteID).subscribe();
+      this.deleteID = undefined;
+      setTimeout(() => {
+        window.location.reload();
+      },
+        500);
+
+    }
+  }
+  deleteCity(city: ICity) {
+    this.deleteID = city.City_Id;
+    if (this.deleteID) {
+      this.citiesService.deleteCity(this.deleteID).subscribe();
+      this.deleteID = undefined;
+      setTimeout(() => {
+        window.location.reload();
+      },
+        500);
+
+    }
+  }
+  deleteApartments(apartment: IApartments) {
+    this.deleteID = apartment.Apartment_Id;
+    if (this.deleteID) {
+      this.apartmentService.deleteApartments(this.deleteID).subscribe();
+      this.deleteID = undefined;
+      setTimeout(() => {
+        window.location.reload();
+      },
+        500);
+
+    }
+  }
+
+  insertApartments(txtAddress: string, txtApartmentNumber: number, filteredApartmentType: number, filteredCityName: number, filteredOwnerName: number) {
+
+    if (txtAddress && txtApartmentNumber && filteredApartmentType && filteredCityName && filteredOwnerName) {
+
+      const newApartment = <IApartments>{
+        Address: txtAddress,
+        Apartment_Number: txtApartmentNumber,
+        Type_Id: filteredApartmentType,
+        City_Id: filteredCityName,
+        Owner_Id: filteredOwnerName,
+        Status: "Slobodan"
+      }
+      this.insertApartment = newApartment;
+      if (this.insertApartment) {
+        this.apartmentService.insertApartments(this.insertApartment)
+          .subscribe(insertApartment => this.apartments.push(this.insertApartment));
+        this.txtAddress = undefined;
+        this.txtApartmentNumber = undefined;
+        this.filteredApartmentType = undefined;
+        this.filteredCityName = undefined;
+        this.filteredOwnerName = undefined;
+        this.insertApartment = undefined;
+        setTimeout(() => {
+          window.location.reload();
+        },
+          500);
+      }
+
+    }
+
+
+  }
+
+  updateApartments(txtApartmentID: number, txtAddress: string, txtApartmentNumber: number, filteredApartmentType: number, filteredCityName: number, filteredOwnerName: number) {
+
+    if (txtApartmentID && txtAddress && txtApartmentNumber && filteredApartmentType && filteredCityName && filteredOwnerName) {
+
+      const newApartment = <IApartments>{
+        Address: txtAddress,
+        Apartment_Number: txtApartmentNumber,
+        Type_Id: filteredApartmentType,
+        City_Id: filteredCityName,
+        Owner_Id: filteredOwnerName,
+        Status: "Slobodan",
+        Apartment_Id: txtApartmentID
+      }
+      this.updateApartment = newApartment;
+      if (this.updateApartment) {
+        this.apartmentService.updateApartments(this.updateApartment).subscribe(res => console.log(res));
+        this.txtAddress = undefined;
+        this.txtApartmentNumber = undefined;
+        this.filteredApartmentType = undefined;
+        this.filteredCityName = undefined;
+        this.filteredOwnerName = undefined;
+        this.txtApartmentID = undefined;
+        this.updateApartment = undefined;
+        setTimeout(() => {
+          window.location.reload();
+        },
+          500);
+      }
+
+    }
+
+
+  }
+
   Trancate() {
     this.logedUserService.truncateLogedUser().subscribe();
   }
@@ -196,32 +510,38 @@ export class AlldataComponent implements OnInit {
   }
 
 
-  getTypeName(): void {
-    this.typeNameService.getTypeName()
-      .subscribe(data => {
-        this.typeNames = data;
-        this.listOfApartmentTypes = JSON.parse(JSON.stringify(this.typeNames));
-      });
-  }
-
-  getCityName(): void {
-    this.cityNameService.getCityName()
-      .subscribe(data => {
-        this.cityNames = data;
-        this.listOfCityNames = JSON.parse(JSON.stringify(this.cityNames));
-      });
-  }
-
   getCities(): void {
     this.citiesService.getCities()
       .subscribe(data => {
         this.cities = data;
+        this.listOfCityNames = JSON.parse(JSON.stringify(this.cities));
+
       });
   }
+
+
+  getApartments(): void {
+    this.apartmentService.getApartmentsjoin()
+      .subscribe(data => {
+        this.apartmentsjoin = data;
+      });
+  }
+
+  getTypes(): void {
+    this.typeService.getTypes()
+      .subscribe(data => {
+        this.types = data;
+        this.listOfApartmentTypes = JSON.parse(JSON.stringify(this.types));
+
+      });
+  }
+
   getOwners(): void {
     this.ownersService.getOwners()
       .subscribe(data => {
         this.owners = data;
+        this.listOfOwners = JSON.parse(JSON.stringify(this.owners));
+
       });
   }
 
@@ -247,11 +567,11 @@ export class AlldataComponent implements OnInit {
       this.getRecords();
     },
       1000);
-    this.getRecords();
-    this.getTypeName();
-    this.getCityName();
     this.getCities();
     this.getOwners();
+    this.getTypes();
+    this.getApartments();
+
   }
 
 

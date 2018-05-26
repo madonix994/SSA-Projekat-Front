@@ -1,49 +1,35 @@
-<!DOCTYPE html>
 <html>
 
 <head>
-
 </head>
 
 <body>
-	
 	<div class="wrapper header fadeInDown">
-
-			<div class="loader">
-					<img class="loaderimg" src="assets/loader.gif">
-			
-				</div>
-
+		<div class="loader">
+			<img class="loaderimg" src="assets/loader.gif">
+		</div>
 		<div id="formContent">
 			<!-- Tabs Titles -->
 			<!-- Remind Passowrd -->
 			<div id="formFooter">
-
 			</div>
 			<!-- Icon -->
 			<div class="fadeIn first">
 				<img src="assets/banner.jpg" id="icon" alt="User Icon" />
 			</div>
-
 			<!-- Login Form -->
 			<form>
 				<input type="text" id="login" class="fadeIn second" [(ngModel)]="txtUsername" name="login" placeholder="Korisničko Ime">
 				<input type="password" id="password" class="fadeIn third" [(ngModel)]="txtPassword" name="login" placeholder="Lozinka">
 				<input type="button" (click)="Login(txtUsername, txtPassword)" id="loginbutton" class="fadeIn fourth" value="Prijava">
 			</form>
-
 			<p style="margin-top:-10px;">{{message}}</p>
-
 			<div id="formFooter">
 				<p class="copywriting">© 2018 aviatowebportal.rs - Sva prava zadržana</p>
 			</div>
-
 		</div>
 	</div>
-
-
 	<script>
-
 		particlesJS("particleCanvas-Blue", {
 			particles: {
 				number: {
@@ -265,7 +251,6 @@
 			},
 			retina_detect: true
 		});
-
 	</script>
 </body>
 

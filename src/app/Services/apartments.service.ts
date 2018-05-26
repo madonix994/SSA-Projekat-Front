@@ -21,11 +21,9 @@ export class ApartmentsService {
 
   getApartmentsjoin(): Observable<IApartmentjoin[]> {
     return this.http.get<IApartmentjoin[]>(this.serviceUrl + '/api/portal/apartments/getallapartmentsjoined');
-
   }
 
-  updateApartments(apartment)
-  {
+  updateApartments(apartment) {
     return this.http.put(this.serviceUrl + '/api/portal/apartments/updateapartment', apartment);
   }
 

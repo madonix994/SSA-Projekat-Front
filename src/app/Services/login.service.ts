@@ -14,8 +14,7 @@ export class LoginService {
 
   constructor(public http: HttpClient) { }
 
-  Login(username: string, password: string) : Observable<ILogin[]>
-  {
-    return this.http.get<ILogin[]>(this.serviceUrl+'/api/portal/login/' + username + '/' + password);
+  Login(username: string, password: string): Observable<ILogin[]> {
+    return this.http.get<ILogin[]>(this.serviceUrl + '/api/portal/login/' + username + '/' + password);
   }
 }

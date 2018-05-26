@@ -3,9 +3,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-
-
-
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-10" id="userdiv">
@@ -14,20 +11,14 @@
         <input type="button" value="Unesi grad" (click)="openModalWithClassCity(templateCity)" id="btnDetails2">
         <input type="button" value="Unesi Apartman" (click)="openModalWithClassApartment(templateApartmant)" id="btnDetails2">
         <input type="button" value="Unesi tip apartmana" (click)="openModalWithClassType(templateType)" id="btnDetails2">
-
       </span>
     </div>
     <div class="col-md-2" id="userdiv">
       <button (click)="Logout()" id="btnReload" class="btn-info">Odjavite se</button>
     </div>
-
   </div>
 
-
-
-
   <div class="row">
-
     <div class="col-md-7">
       <p style="text-align: center; color:dodgerblue; margin-bottom: 5px; margin-top: 5px; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; font-size: 24px">Tabela Vlasnici</p>
       <div id="tableOwners" class="container">
@@ -58,12 +49,10 @@
                 </div>
               </td>
             </tr>
-
           </table>
           <br>
         </div>
       </div>
-
     </div>
 
     <div class="col-md-5">
@@ -94,21 +83,16 @@
                     <span style="font-weight: bolder; color: rgb(207, 0, 0)">{{city.City_Name}}</span>
                   </span>
                 </div>
-
               </td>
             </tr>
-
           </table>
           <br>
         </div>
       </div>
-
     </div>
-
   </div>
 
   <div class="row">
-
     <div class="col-md-8">
       <p style="text-align: center; color:dodgerblue; margin-bottom: 5px; margin-top: 5px; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; font-size: 24px">Tabela Stanovi</p>
       <div id="tableApartments" class="container">
@@ -139,12 +123,10 @@
                 </div>
               </td>
             </tr>
-
           </table>
           <br>
         </div>
       </div>
-
     </div>
 
     <div class="col-md-4">
@@ -171,20 +153,16 @@
                 </div>
               </td>
             </tr>
-
           </table>
           <br>
         </div>
       </div>
-
     </div>
 
 
   </div>
   <div class="row">
-
     <div class="col-md-12">
-
       <p style="text-align: center; color:dodgerblue; margin-bottom: 10px; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; font-size: 30px">Tabela Evidencije</p>
       <div id="tableEvidention" class="container">
         <div class="table-responsive">
@@ -216,12 +194,9 @@
               <td>{{record.Date_Time| date:'dd.MM.yyyy'}}</td>
               <td>{{record.Date_Time | date:"HH:mm"}}</td>
               <td>
-
                 <input type="button" value="Detaljnije" (click)="openModalWithClass(template, record)" id="btnDetails">
-
               </td>
             </tr>
-
           </table>
           <br>
         </div>
@@ -229,7 +204,6 @@
       <div class="paginationPosition">
         <pagination-controls (pageChange)="p = $event"></pagination-controls>
       </div>
-
     </div>
   </div>
 </div>
@@ -266,7 +240,6 @@
       <br> JMBG: {{selectedRecord.Owner_JMBG}}
       <br>
     </div>
-
   </div>
 </ng-template>
 
@@ -331,7 +304,6 @@
       <br>
       <input type="hidden" name="ownersID" [(ngModel)]="selectedOwner.Owner_Id" style="color:black">
       <br>
-
       <input type="button" (click)="updateOwners(selectedOwner.Owner_Id, selectedOwner.Name, selectedOwner.Surname, selectedOwner.JMBG, selectedOwner.Card_Number, selectedOwner.Username, selectedOwner.Password)"
         id="btnInsert" value="Izmeni">
     </form>
@@ -365,7 +337,6 @@
       <input type="text" name="types" [(ngModel)]="selectedType.Type_Name" style="color:black">
       <input type="hidden" name="typesID" [(ngModel)]="selectedType.Type_Id" style="color:black">
       <input type="button" (click)="updateTypes(selectedType.Type_Id, selectedType.Type_Name)" value="Izmeni" id="btnInsert">
-
     </form>
   </div>
 </ng-template>
@@ -399,7 +370,6 @@
       </select>
       <br>
       <br>
-
       <input type="button" (click)="insertApartments(txtAddress, txtApartmentNumber, filteredApartmentType, filteredCityName, filteredOwnerName)"
         class="fadeIn fourth" value="Unesi" id="btnInsert">
     </form>
@@ -435,7 +405,6 @@
     <form style="margin-top: 5%">
       <input type="text" name="apartmentsAddress" [(ngModel)]="selectedApartment.Address" style="color:black" placeholder="Adresa apartmana">
       <input type="number" name="apartmentsNumber" [(ngModel)]="selectedApartment.Apartment_Number" style="color:black" placeholder="Broj stana">
-
       <br> Odaberite tip stana:
       <select id="apartmentType" name="apartmentsTID" [(ngModel)]="selectedApartment.Type_Id">
         <option value="" selected disabled hidden>Odaberite tip stana</option>
@@ -454,7 +423,6 @@
       <input type="hidden" name="apartmentsID" [(ngModel)]="selectedApartment.Apartment_Id">
       <br>
       <br>
-
       <input type="button" (click)="updateApartments(selectedApartment.Apartment_Id, selectedApartment.Address, selectedApartment.Apartment_Number, selectedApartment.Type_Id, selectedApartment.City_Id, selectedApartment.Owner_Id)"
         class="fadeIn fourth" value="Izmeni" id="btnInsert">
     </form>

@@ -12,9 +12,7 @@ import { LogedUserService } from '../Services/loged-user.service';
 import { BsModalService } from 'ngx-bootstrap/modal/bs-modal.service';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
-declare var $:any;
-
-
+declare var $: any;
 
 @Component({
   selector: 'app-login',
@@ -27,25 +25,11 @@ export class LoginComponent implements OnInit {
 
   public modalRef: BsModalRef;
   public templatemsg: TemplateRef<any>;
-
   public txtUsername: string = "";
   public txtPassword: string = "";
-
   public login: ILogin[] = [];
-
   public user: ILogin = null;
-
   public message: string = "";
-
-
-  openModalWithClass() {
-
-
-
-  }
-
-
-
 
   Login(username: string, password: string): void {
     this.txtUsername = username;
@@ -81,8 +65,7 @@ export class LoginComponent implements OnInit {
           }
         });
 
-    }else
-    {
+    } else {
       this.message = "Podaci nisu tacni";
 
     }
@@ -93,15 +76,13 @@ export class LoginComponent implements OnInit {
     this.logedUserService.truncateLogedUser().subscribe();
   }
 
-  Loader(){
-      $('.loader').show();
+  Loader() {
+    $('.loader').show();
   }
-
-
 
   ngOnInit() {
     this.Trancate();
-    
+
   }
 
 }

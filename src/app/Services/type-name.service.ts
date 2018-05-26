@@ -14,9 +14,8 @@ export class TypeNameService {
 
   constructor(public http: HttpClient) { }
 
-  getTypeName() : Observable<ITypeName[]>
-  {
-    return this.http.get<ITypeName[]>(this.serviceUrl+'/api/portal/types/getalltypenames');
+  getTypeName(): Observable<ITypeName[]> {
+    return this.http.get<ITypeName[]>(this.serviceUrl + '/api/portal/types/getalltypenames');
   }
 
 }

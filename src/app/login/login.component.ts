@@ -12,6 +12,8 @@ import { LogedUserService } from '../Services/loged-user.service';
 import { BsModalService } from 'ngx-bootstrap/modal/bs-modal.service';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
+declare var $:any;
+
 
 
 @Component({
@@ -59,12 +61,13 @@ export class LoginComponent implements OnInit {
             this.logedUserService.insertLogedUser(this.user)
               .subscribe(user => this.login.push(this.user));
             if (this.user.Username == "Admin" && this.user.Password == "Admin") {
-
+              this.Loader();
               setTimeout(() => {
                 this.router.navigate(['/adminmain']);
               },
                 2000);
             } else {
+              this.Loader();
               setTimeout(() => {
                 this.router.navigate(['/main']);
               },
@@ -90,9 +93,15 @@ export class LoginComponent implements OnInit {
     this.logedUserService.truncateLogedUser().subscribe();
   }
 
+  Loader(){
+      $('.loader').show();
+  }
+
+
 
   ngOnInit() {
     this.Trancate();
+    
   }
 
 }

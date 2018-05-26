@@ -22,10 +22,10 @@ export class OwnersService {
     return this.http.post(this.serviceUrl + '/api/portal/owners/insertowner', owner);
   }
 
-  updateOwners()
+  updateOwners(owner)
   {
 
-    // deleted
+    return this.http.put(this.serviceUrl + '/api/portal/owners/updateowner', owner);
 
   }
   

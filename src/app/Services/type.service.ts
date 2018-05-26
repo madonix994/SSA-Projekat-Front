@@ -21,6 +21,11 @@ export class TypeService {
     return this.http.post(this.serviceUrl + '/api/portal/types/inserttypes', type);
   }
 
+  updateTypes(type)
+  {
+    return this.http.put(this.serviceUrl + '/api/portal/types/updatetypes ', type);
+  }
+
   deleteTypes(type_id) {
     return this.http.get(this.serviceUrl + '/api/portal/types/deletetype/' + type_id);
   }

@@ -43,7 +43,8 @@
 #tableApartments
 {
     text-align: center;
-    width: 100%;
+	width: 100%;
+	font-size: 13px;
 }
 #tableCities
 {

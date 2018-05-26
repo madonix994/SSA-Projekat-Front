@@ -20,7 +20,7 @@ export class CitiesService {
     return this.http.get<ICity[]>(this.serviceUrl+'/api/portal/cities/getallcities');
   }
 
-  updateCity(city){
+  updateCities(city){
     return this.http.put(this.serviceUrl + '/api/portal/cities/updatecities', city);
   }
 

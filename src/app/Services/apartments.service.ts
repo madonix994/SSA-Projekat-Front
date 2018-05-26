@@ -24,6 +24,11 @@ export class ApartmentsService {
 
   }
 
+  updateApartments(apartment)
+  {
+    return this.http.put(this.serviceUrl + '/api/portal/apartments/updateapartment', apartment);
+  }
+
   insertApartments(apartment) {
     return this.http.post(this.serviceUrl + '/api/portal/apartments/insertapartment', apartment);
   }

@@ -8,59 +8,7 @@
 
 <div class="container-fluid">
   <div class="row">
-
-    <div class="col-md-12">
-
-      <p style="text-align: center; color:dodgerblue; margin-bottom: 10px; margin-top: 10px; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; font-size: 30px">Tabela Evidencije</p>
-      <div id="tableEvidention" class="container">
-        <div class="table-responsive">
-          <table class="table table-hover table-bordered">
-            <tr>
-              <td class="sortiraj" tooltip="Sortiraj" (click)="sort('Person_Name')">Ime osobe
-                <span class="glyphicon sort-icon" *ngIf="key =='Person_Name'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-              </td>
-              <td class="sortiraj" tooltip="Sortiraj" (click)="sort('Person_Surname')">Prezime osobe
-                <span class="glyphicon sort-icon" *ngIf="key =='Person_Surname'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-              </td>
-              <td>Tip stana</td>
-              <td class="sortiraj" tooltip="Sortiraj" (click)="sort('City_Name')">Naziv grada
-                <span class="glyphicon sort-icon" *ngIf="key =='City_Name'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-              </td>
-              <td>Adresa</td>
-              <td class="sortiraj" tooltip="Sortiraj" (click)="sort('Date_Time')">Datum
-                <span class="glyphicon sort-icon" *ngIf="key =='Date_Time'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-              </td>
-              <td>Vreme</td>
-              <td>Akcija</td>
-            </tr>
-            <tr *ngFor="let record of filteredRecords | orderBy: key : reverse | paginate: { itemsPerPage: 6, currentPage: p }; let i = index">
-              <td>{{record.Person_Name}}</td>
-              <td>{{record.Person_Surname}}</td>
-              <td>{{record.Type_Name}}</td>
-              <td>{{record.City_Name}}</td>
-              <td>{{record.Address}}</td>
-              <td>{{record.Date_Time| date:'dd.MM.yyyy'}}</td>
-              <td>{{record.Date_Time | date:"HH:mm"}}</td>
-              <td>
-
-                <input type="button" value="Detaljnije" (click)="openModalWithClass(template, record)" id="btnDetails">
-
-              </td>
-            </tr>
-
-          </table>
-          <br>
-        </div>
-      </div>
-      <div class="paginationPosition">
-        <pagination-controls (pageChange)="p = $event"></pagination-controls>
-      </div>
-
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-md-12" style="text-align: center;">
+    <div class="col-md-10" id="userdiv">
       <span style="display: inline;">
         <input type="button" value="Unesi vlasnika" (click)="openModalWithClassOwner(templateOwner)" id="btnDetails2">
         <input type="button" value="Unesi grad" (click)="openModalWithClassCity(templateCity)" id="btnDetails2">
@@ -69,8 +17,14 @@
 
       </span>
     </div>
+    <div class="col-md-2" id="userdiv">
+      <button (click)="Logout()" id="btnReload" class="btn-info">Odjavite se</button>
+    </div>
 
   </div>
+
+
+
 
   <div class="row">
 
@@ -199,8 +153,8 @@
                 <input type="button" value="Izmeni" (click)="openModalWithClassTypeUpdate(templateTypeUpdate, type)" id="btnDetails">
                 <div class="tooltipbtn">
                   <input type="button" value="Izbriši" (click)="deleteTypes(type)" id="btnDetails">
-                  <span class="tooltiptext">Brisanje tipa: 
-                      <span style="font-weight: bolder; color: rgb(207, 0, 0)">{{type.Type_Name}}</span>
+                  <span class="tooltiptext">Brisanje tipa:
+                    <span style="font-weight: bolder; color: rgb(207, 0, 0)">{{type.Type_Name}}</span>
                   </span>
                 </div>
               </td>
@@ -215,7 +169,57 @@
 
 
   </div>
+  <div class="row">
 
+    <div class="col-md-12">
+
+      <p style="text-align: center; color:dodgerblue; margin-bottom: 10px; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; font-size: 30px">Tabela Evidencije</p>
+      <div id="tableEvidention" class="container">
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered">
+            <tr>
+              <td class="sortiraj" tooltip="Sortiraj" (click)="sort('Person_Name')">Ime osobe
+                <span class="glyphicon sort-icon" *ngIf="key =='Person_Name'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              </td>
+              <td class="sortiraj" tooltip="Sortiraj" (click)="sort('Person_Surname')">Prezime osobe
+                <span class="glyphicon sort-icon" *ngIf="key =='Person_Surname'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              </td>
+              <td>Tip stana</td>
+              <td class="sortiraj" tooltip="Sortiraj" (click)="sort('City_Name')">Naziv grada
+                <span class="glyphicon sort-icon" *ngIf="key =='City_Name'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              </td>
+              <td>Adresa</td>
+              <td class="sortiraj" tooltip="Sortiraj" (click)="sort('Date_Time')">Datum
+                <span class="glyphicon sort-icon" *ngIf="key =='Date_Time'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              </td>
+              <td>Vreme</td>
+              <td>Akcija</td>
+            </tr>
+            <tr *ngFor="let record of filteredRecords | orderBy: key : reverse | paginate: { itemsPerPage: 6, currentPage: p }; let i = index">
+              <td>{{record.Person_Name}}</td>
+              <td>{{record.Person_Surname}}</td>
+              <td>{{record.Type_Name}}</td>
+              <td>{{record.City_Name}}{{message}}</td>
+              <td>{{record.Address}}</td>
+              <td>{{record.Date_Time| date:'dd.MM.yyyy'}}</td>
+              <td>{{record.Date_Time | date:"HH:mm"}}</td>
+              <td>
+
+                <input type="button" value="Detaljnije" (click)="openModalWithClass(template, record)" id="btnDetails">
+
+              </td>
+            </tr>
+
+          </table>
+          <br>
+        </div>
+      </div>
+      <div class="paginationPosition">
+        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+      </div>
+
+    </div>
+  </div>
 </div>
 
 <ng-template #template>

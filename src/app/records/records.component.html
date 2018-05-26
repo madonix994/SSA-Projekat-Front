@@ -25,14 +25,14 @@
       </div>
       <div class="row">
         <div class="col-md-12" id="records-filter">
-          
+
           <input id="navbar" class="form-control" type="text" name="search" placeholder="Pretražite..." [(ngModel)]="searchfilter">
 
           <select id="apartmentType" class="form-control" [(ngModel)]="filteredApartmentType" (change)="filter()">
             <option value="" selected disabled hidden>Odaberite tip stana</option>
             <option *ngFor="let a of listOfApartmentTypes" [value]="a.Type_Name">{{a.Type_Name}}</option>
           </select>
-          
+
           <select id="cityName" class="form-control" [(ngModel)]="filteredCityName" (change)="filter()">
             <option value="" selected disabled hidden>Odaberite grad</option>
             <option *ngFor="let a of listOfCityNames" [value]="a.City_Name">{{a.City_Name}}</option>
@@ -43,7 +43,7 @@
           <input id="dateRangePicker" (bsValueChange)="filter()" placeholder="Odaberite datume" class="form-control" #drp="bsDaterangepicker"
             bsDaterangepicker [bsConfig]="bsConfig" placement="right" [(ngModel)]="bsRangeValue">
 
-          
+
           <!-- Prikaz filtera za filtriranje po vremenu -->
           <div class="radio" id="radiobuttons">
             <label>
@@ -65,17 +65,12 @@
               <button type="reset" style="margin-top: 5px" id="btnReload" (click)="ClearFilters()" class="btn-info">Poništi filtere</button>
             </div>
           </div>
-
           <div class="row">
-              <div class="col-md-12">
-                <button (click)="Logout()" style="margin-top: 5px" id="btnReload" class="btn-info">Logout</button>
-              </div>
+            <div class="col-md-12">
+              <button (click)="Logout()" id="btnReload" class="btn-info">Odjavite se</button>
             </div>
 
-          <br>
-
-
-
+          </div>
         </div>
 
       </div>

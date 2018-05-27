@@ -59,6 +59,7 @@ export class LoginComponent implements OnInit {
             }
           } else {
             this.message = "Podaci nisu tacni";
+            this.Hand();
 
 
 
@@ -67,7 +68,7 @@ export class LoginComponent implements OnInit {
 
     } else {
       this.message = "Podaci nisu tacni";
-
+      this.Hand();
     }
 
   }
@@ -78,6 +79,11 @@ export class LoginComponent implements OnInit {
 
   Loader() {
     $('.loader').show();
+  }
+
+  Hand() {
+    $('#hand').show(0).delay(1000).hide(0);
+    
   }
 
   ngOnInit() {

@@ -329,3 +329,11 @@ html {
   top: 45%;
   left: 45.5%;
 }
+#hand
+{
+  display: none;
+  position: absolute;
+  width: 130px;
+  z-index: 10;
+
+}

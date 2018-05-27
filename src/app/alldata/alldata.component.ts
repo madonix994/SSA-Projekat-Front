@@ -515,7 +515,7 @@ export class AlldataComponent implements OnInit {
 
   insertRecords() {
     const newRecord = <IRecord>{
-      Record_Status: "Izlaz",
+      Record_Status: "Ulaz",
       P_Person_Id: 3,
       A_Apartment_Id: 2
     }
@@ -537,15 +537,14 @@ export class AlldataComponent implements OnInit {
       .subscribe(data => {
         this.users = data;
 
-        if (!this.users) {
+        if (!this.users || this.users[0].Username != "Admin") {
           this.router.navigate(['/login']);
         }
 
       });
   }
 
-  help()
-  {
+  help() {
     this.router.navigate(['/mainhelp']);
   }
 
@@ -556,12 +555,13 @@ export class AlldataComponent implements OnInit {
     this.getLogedUser();
     setTimeout(() => {
       this.getRecords();
+      this.getCities();
+      this.getOwners();
+      this.getTypes();
+      this.getApartments();
     },
       1000);
-    this.getCities();
-    this.getOwners();
-    this.getTypes();
-    this.getApartments();
+
 
   }
 

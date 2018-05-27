@@ -37,7 +37,7 @@ import { ApartmentsService } from "../Services/apartments.service";
 })
 export class AlldataComponent implements OnInit {
 
-  
+
   constructor(private apartmentService: ApartmentsService, private typeService: TypeService, private ownersService: OwnersService, private modalService: BsModalService, private logedUserService: LogedUserService, private router: Router, private recordsService: RecordsService, public datepipe: DatePipe, private typeNameService: TypeNameService, private cityNameService: CityNameService, private citiesService: CitiesService) { }
 
   modalRef: BsModalRef;
@@ -90,6 +90,7 @@ export class AlldataComponent implements OnInit {
   public selectedApartment: IApartments;
   public txtApartmentID: number;
   public updateApartment: IApartments;
+  public insertRecord: IRecord = null;
 
   openModalWithClass(template: TemplateRef<any>, selectedRecord: IRecord) {
     this.modalRef = this.modalService.show(
@@ -368,6 +369,7 @@ export class AlldataComponent implements OnInit {
 
 
   }
+
   updateTypes(txtTypeID: number, txtType_Name: string) {
 
     if (txtTypeID && txtType_Name) {
@@ -405,7 +407,7 @@ export class AlldataComponent implements OnInit {
 
     }
   }
-  
+
   getApartments(): void {
     this.apartmentService.getApartmentsjoin()
       .subscribe(data => {
@@ -511,6 +513,25 @@ export class AlldataComponent implements OnInit {
       });
   }
 
+  insertRecords() {
+    const newRecord = <IRecord>{
+      Record_Status: "Izlaz",
+      P_Person_Id: 3,
+      A_Apartment_Id: 2
+    }
+    this.insertRecord = newRecord;
+    if (this.insertRecord) {
+      this.recordsService.insertRecord(this.insertRecord)
+        .subscribe(insertRecord => this.records.push(this.insertRecord));
+      this.insertRecord = undefined;
+      setTimeout(() => {
+        window.location.reload();
+      },
+        500);
+    }
+
+  }
+
   getLogedUser(): void {
     this.logedUserService.getLogedUser()
       .subscribe(data => {
@@ -521,6 +542,11 @@ export class AlldataComponent implements OnInit {
         }
 
       });
+  }
+
+  help()
+  {
+    this.router.navigate(['/mainhelp']);
   }
 
   //Za paginaciju

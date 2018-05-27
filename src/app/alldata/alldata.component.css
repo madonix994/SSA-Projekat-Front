@@ -429,3 +429,15 @@
 	text-align: center;
 	padding: 1%;
 }
+#inputOwner
+{
+	color:black;
+	width: 25%;
+	margin-bottom: 15px;
+	margin-left: 37.5%;
+	text-align: center;
+}
+#inputOwner::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: black;
+    opacity: 1; /* Firefox */
+}

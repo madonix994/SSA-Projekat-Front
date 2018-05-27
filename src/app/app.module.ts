@@ -38,12 +38,15 @@ import { IOwner } from "../app/Models/IOwner";
 import { TypeService } from "../app/Services/type.service";
 import { IType } from "../app/Models/IType";
 import { IApartments } from "../app/Models/IApartment";
+import { MainhelpComponent } from './mainhelp/mainhelp.component';
+import { HelpComponent } from './help/help.component';
 
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'main', component: MainComponent },
   { path: 'adminmain', component: AdminmainComponent },
+  { path: 'mainhelp', component: MainhelpComponent },
 
 
   {
@@ -66,6 +69,8 @@ const appRoutes: Routes = [
     MainComponent,
     AdminmainComponent,
     AlldataComponent,
+    MainhelpComponent,
+    HelpComponent,
   ],
   imports: [
     BrowserModule,

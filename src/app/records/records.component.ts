@@ -198,6 +198,9 @@ export class RecordsComponent implements OnInit {
 
   }
 
+  help() {
+    this.router.navigate(['/mainhelp']);
+  }
   //Za sortiranje
   public key: string;
   reverse: boolean = false;

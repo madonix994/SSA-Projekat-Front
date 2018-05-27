@@ -20,4 +20,10 @@ export class RecordsService {
     return this.http.get<IRecord[]>(this.serviceUrl + '/api/portal/records/getallrecords');
   }
 
+  insertRecord(record)
+  {
+    return this.http.post(this.serviceUrl + '/api/portal/records/insertrecord', record);
+  }
+
+
 }

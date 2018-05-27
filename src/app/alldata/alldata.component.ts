@@ -38,51 +38,29 @@ import { ApartmentsService } from "../Services/apartments.service";
 export class AlldataComponent implements OnInit {
 
 
-  public test: string;
-
   constructor(private apartmentService: ApartmentsService, private typeService: TypeService, private ownersService: OwnersService, private modalService: BsModalService, private logedUserService: LogedUserService, private router: Router, private recordsService: RecordsService, public datepipe: DatePipe, private typeNameService: TypeNameService, private cityNameService: CityNameService, private citiesService: CitiesService) { }
 
   modalRef: BsModalRef;
-
   public numberOfRecords: number;
-
   public records: IRecord[] = []; // Deklaracija praznog niza po tipu interfejsa IRecord
-
   public selectedRecord: IRecord;
-
   public selectedCity: ICity;
-
   public filteredRecords: IRecord[] = [];
-
   public detailRecords: IRecord[] = [];
-
   public typeNames: ITypeName[] = [];
-
   public users: ILogin[] = [];
-
   public filteredApartmentType: number;//pokupljen select sa fronta iz dropdown-a!
-
   public filteredOwnerName: number;
-
   public listOfApartmentTypes: string[] = [];
-
   public listOfOwners: string[] = [];
-
-
   public cityNames: ICityName[] = [];
-
   public filteredCityName: number;
-
   public listOfCityNames: string[] = [];
   public filteredDate: string;
-
   public detailRecord: string;
-
   public cities: ICity[] = [];
-
   public txtCity_Name: string = "";
   public txtPpt: number;
-
   public txtOwner_Name: string = "";
   public txtOwner_Surname: string = "";
   public txtOwner_Username: string = "";
@@ -91,39 +69,28 @@ export class AlldataComponent implements OnInit {
   public txtOwner_Card_Number: number;
   public txtOwnerID: number;
   public types: IType[] = [];
-
   public insertType: IType = null;
   public updateType: IType = null;
-
   public insertCity: ICity = null;
   public updateCity: ICity = null;
-
-
   public insertApartment: IApartments = null;
-
   public owners: IOwner[] = [];
   public insertOwner: IOwner = null;
-
   public selectedOwner: IOwner;
   public updateOwner: IOwner = null;
-
   public txtType_Name: string = "";
-
   public apartments: IApartments[] = [];
   public apartmentsjoin: IApartmentjoin[] = [];
-
   public txtAddress: string = "";
   public txtApartmentNumber: number;
-
   public deleteID: number;
-
   public selectedType: IType;
   public txtTypeID: number;
   public txtCityID: number;
-
   public selectedApartment: IApartments;
   public txtApartmentID: number;
   public updateApartment: IApartments;
+  public insertRecord: IRecord = null;
 
   openModalWithClass(template: TemplateRef<any>, selectedRecord: IRecord) {
     this.modalRef = this.modalService.show(
@@ -141,6 +108,7 @@ export class AlldataComponent implements OnInit {
     );
 
   }
+
   openModalWithClassOwner(templateCity: TemplateRef<any>) {
     this.modalRef = this.modalService.show(
       templateCity,
@@ -164,6 +132,7 @@ export class AlldataComponent implements OnInit {
     );
 
   }
+
   openModalWithClassOwnerUpdate(templateOwnerUpdate: TemplateRef<any>, selectedOwner: IOwner) {
     this.selectedOwner = selectedOwner;
 
@@ -174,6 +143,7 @@ export class AlldataComponent implements OnInit {
     )
 
   }
+
   openModalWithClassTypeUpdate(templateTypeUpdate: TemplateRef<any>, selectedType: IType) {
     this.selectedType = selectedType;
 
@@ -184,6 +154,7 @@ export class AlldataComponent implements OnInit {
     )
 
   }
+
   openModalWithClassCityUpdate(templateCityUpdate: TemplateRef<any>, selectedCity: ICity) {
     this.selectedCity = selectedCity;
     this.modalRef = this.modalService.show(
@@ -192,6 +163,7 @@ export class AlldataComponent implements OnInit {
     )
 
   }
+
   openModalWithClassApartmentUpdate(templateApartmentUpdate: TemplateRef<any>, selectedApartment: IApartments) {
     this.selectedApartment = selectedApartment;
     this.modalRef = this.modalService.show(
@@ -201,6 +173,14 @@ export class AlldataComponent implements OnInit {
 
   }
 
+  getCities(): void {
+    this.citiesService.getCities()
+      .subscribe(data => {
+        this.cities = data;
+        this.listOfCityNames = JSON.parse(JSON.stringify(this.cities));
+
+      });
+  }
 
   insertCities(txtCity_Name: string, txtPpt: number) {
 
@@ -228,7 +208,6 @@ export class AlldataComponent implements OnInit {
 
   }
 
-
   updateCities(txtCityID: number, txtCity_Name: string, txtPpt: number) {
 
     if (txtCityID && txtCity_Name && txtPpt) {
@@ -253,6 +232,28 @@ export class AlldataComponent implements OnInit {
       }
 
     }
+  }
+
+  deleteCity(city: ICity) {
+    this.deleteID = city.City_Id;
+    if (this.deleteID) {
+      this.citiesService.deleteCity(this.deleteID).subscribe();
+      this.deleteID = undefined;
+      setTimeout(() => {
+        window.location.reload();
+      },
+        500);
+
+    }
+  }
+
+  getOwners(): void {
+    this.ownersService.getOwners()
+      .subscribe(data => {
+        this.owners = data;
+        this.listOfOwners = JSON.parse(JSON.stringify(this.owners));
+
+      });
   }
 
   insertOwners(txtOwner_Name: string, txtOwner_Surname: string, txtOwner_JMBG: string, txtOwner_Card_Number: number, txtOwner_Username: string, txtOwner_Password: string) {
@@ -323,7 +324,27 @@ export class AlldataComponent implements OnInit {
 
   }
 
+  deleteOwner(owner: IOwner) {
+    this.deleteID = owner.Owner_Id;
+    if (this.deleteID) {
+      this.ownersService.deleteOwner(this.deleteID).subscribe();
+      this.deleteID = undefined;
+      setTimeout(() => {
+        window.location.reload();
+      },
+        500);
 
+    }
+  }
+
+  getTypes(): void {
+    this.typeService.getTypes()
+      .subscribe(data => {
+        this.types = data;
+        this.listOfApartmentTypes = JSON.parse(JSON.stringify(this.types));
+
+      });
+  }
 
   insertTypes(txtType_Name: string) {
 
@@ -348,6 +369,7 @@ export class AlldataComponent implements OnInit {
 
 
   }
+
   updateTypes(txtTypeID: number, txtType_Name: string) {
 
     if (txtTypeID && txtType_Name) {
@@ -373,7 +395,6 @@ export class AlldataComponent implements OnInit {
 
   }
 
-
   deleteTypes(type: IType) {
     this.deleteID = type.Type_Id;
     if (this.deleteID) {
@@ -386,41 +407,12 @@ export class AlldataComponent implements OnInit {
 
     }
   }
-  deleteOwner(owner: IOwner) {
-    this.deleteID = owner.Owner_Id;
-    if (this.deleteID) {
-      this.ownersService.deleteOwner(this.deleteID).subscribe();
-      this.deleteID = undefined;
-      setTimeout(() => {
-        window.location.reload();
-      },
-        500);
 
-    }
-  }
-  deleteCity(city: ICity) {
-    this.deleteID = city.City_Id;
-    if (this.deleteID) {
-      this.citiesService.deleteCity(this.deleteID).subscribe();
-      this.deleteID = undefined;
-      setTimeout(() => {
-        window.location.reload();
-      },
-        500);
-
-    }
-  }
-  deleteApartments(apartment: IApartments) {
-    this.deleteID = apartment.Apartment_Id;
-    if (this.deleteID) {
-      this.apartmentService.deleteApartments(this.deleteID).subscribe();
-      this.deleteID = undefined;
-      setTimeout(() => {
-        window.location.reload();
-      },
-        500);
-
-    }
+  getApartments(): void {
+    this.apartmentService.getApartmentsjoin()
+      .subscribe(data => {
+        this.apartmentsjoin = data;
+      });
   }
 
   insertApartments(txtAddress: string, txtApartmentNumber: number, filteredApartmentType: number, filteredCityName: number, filteredOwnerName: number) {
@@ -490,6 +482,19 @@ export class AlldataComponent implements OnInit {
 
   }
 
+  deleteApartments(apartment: IApartments) {
+    this.deleteID = apartment.Apartment_Id;
+    if (this.deleteID) {
+      this.apartmentService.deleteApartments(this.deleteID).subscribe();
+      this.deleteID = undefined;
+      setTimeout(() => {
+        window.location.reload();
+      },
+        500);
+
+    }
+  }
+
   Trancate() {
     this.logedUserService.truncateLogedUser().subscribe();
   }
@@ -498,7 +503,6 @@ export class AlldataComponent implements OnInit {
     this.Trancate();
     this.router.navigate(['/login'])
   }
-
 
   getRecords(): void {
     this.recordsService.getRecords()
@@ -509,40 +513,23 @@ export class AlldataComponent implements OnInit {
       });
   }
 
+  insertRecords() {
+    const newRecord = <IRecord>{
+      Record_Status: "Ulaz",
+      P_Person_Id: 3,
+      A_Apartment_Id: 2
+    }
+    this.insertRecord = newRecord;
+    if (this.insertRecord) {
+      this.recordsService.insertRecord(this.insertRecord)
+        .subscribe(insertRecord => this.records.push(this.insertRecord));
+      this.insertRecord = undefined;
+      setTimeout(() => {
+        window.location.reload();
+      },
+        500);
+    }
 
-  getCities(): void {
-    this.citiesService.getCities()
-      .subscribe(data => {
-        this.cities = data;
-        this.listOfCityNames = JSON.parse(JSON.stringify(this.cities));
-
-      });
-  }
-
-
-  getApartments(): void {
-    this.apartmentService.getApartmentsjoin()
-      .subscribe(data => {
-        this.apartmentsjoin = data;
-      });
-  }
-
-  getTypes(): void {
-    this.typeService.getTypes()
-      .subscribe(data => {
-        this.types = data;
-        this.listOfApartmentTypes = JSON.parse(JSON.stringify(this.types));
-
-      });
-  }
-
-  getOwners(): void {
-    this.ownersService.getOwners()
-      .subscribe(data => {
-        this.owners = data;
-        this.listOfOwners = JSON.parse(JSON.stringify(this.owners));
-
-      });
   }
 
   getLogedUser(): void {
@@ -550,13 +537,16 @@ export class AlldataComponent implements OnInit {
       .subscribe(data => {
         this.users = data;
 
-        if (!this.users) {
+        if (!this.users || this.users[0].Username != "Admin") {
           this.router.navigate(['/login']);
         }
 
       });
   }
 
+  help() {
+    this.router.navigate(['/mainhelp']);
+  }
 
   //Za paginaciju
   p: number = 1;
@@ -565,12 +555,13 @@ export class AlldataComponent implements OnInit {
     this.getLogedUser();
     setTimeout(() => {
       this.getRecords();
+      this.getCities();
+      this.getOwners();
+      this.getTypes();
+      this.getApartments();
     },
       1000);
-    this.getCities();
-    this.getOwners();
-    this.getTypes();
-    this.getApartments();
+
 
   }
 

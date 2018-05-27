@@ -16,29 +16,14 @@ export class RecordsService {
 
   constructor(public http: HttpClient) { }
 
-  getRecords() : Observable<IRecord[]>
-  {
-    return this.http.get<IRecord[]>(this.serviceUrl+'/api/portal/records/getallrecords');
-  }
-  getRecordsToday() : Observable<IRecord[]>
-  {
-    return this.http.get<IRecord[]>(this.serviceUrl+'/api/portal/records/getallrecordstoday');
+  getRecords(): Observable<IRecord[]> {
+    return this.http.get<IRecord[]>(this.serviceUrl + '/api/portal/records/getallrecords');
   }
 
-  getRecordsWeek() : Observable<IRecord[]>
+  insertRecord(record)
   {
-    return this.http.get<IRecord[]>(this.serviceUrl+'/api/portal/records/getallrecordsweek');
+    return this.http.post(this.serviceUrl + '/api/portal/records/insertrecord', record);
   }
-
-  getRecordsMonth() : Observable<IRecord[]>
-  {
-    return this.http.get<IRecord[]>(this.serviceUrl+'/api/portal/records/getallrecordsmonth');
-  }
-
-
-
-
-
 
 
 }

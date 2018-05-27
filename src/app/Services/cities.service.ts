@@ -15,16 +15,15 @@ export class CitiesService {
 
   constructor(public http: HttpClient) { }
 
-  getCities() : Observable<ICity[]>
-  {
-    return this.http.get<ICity[]>(this.serviceUrl+'/api/portal/cities/getallcities');
+  getCities(): Observable<ICity[]> {
+    return this.http.get<ICity[]>(this.serviceUrl + '/api/portal/cities/getallcities');
   }
 
-  updateCities(city){
+  updateCities(city) {
     return this.http.put(this.serviceUrl + '/api/portal/cities/updatecities', city);
   }
 
-  insertCities(city){
+  insertCities(city) {
     return this.http.post(this.serviceUrl + '/api/portal/cities/insertcities', city);
   }
 

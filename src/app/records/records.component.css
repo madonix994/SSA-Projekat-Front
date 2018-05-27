@@ -168,10 +168,10 @@
 	font-family:Arial;
 	font-size:14px;
 	font-weight:bold;
-	padding:8px 16px;
+	padding:6px 10px;
 	text-decoration:none;
 	width: 100%;
-	margin-top: 5px;
+	margin-top: 1px;
 }
 #btnReload:hover {
 	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #019ad2), color-stop(1, #33bdef));
@@ -224,6 +224,6 @@
 }
 #radiobuttons
 {
-	margin-top: 5px;
+	margin-top: 3px;
 	margin-left: 25px;
 }

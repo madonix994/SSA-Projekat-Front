@@ -3,16 +3,11 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-
-
-
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-2" id="left">
-
       <div class="row">
         <div class="col-md-12" id="records-user">
-
           <img src="assets/user.png" alt="UserIcon" class="UserIcon">
           <p class="UserName">Korisnik:
             <span style="font-weight: bold">{{Owner_Name}} {{ Owner_Surname}}</span>
@@ -20,30 +15,21 @@
           <p class="numberOfApartments">Broj stanova:
             <span style="font-weight: bold">{{Owner_Number_of_apartments}}</span>
           </p>
-
         </div>
       </div>
       <div class="row">
         <div class="col-md-12" id="records-filter">
-
           <input id="navbar" class="form-control" type="text" name="search" placeholder="Pretražite..." [(ngModel)]="searchfilter">
-
           <select id="apartmentType" class="form-control" [(ngModel)]="filteredApartmentType" (change)="filter()">
             <option value="" selected disabled hidden>Odaberite tip stana</option>
             <option *ngFor="let a of listOfApartmentTypes" [value]="a.Type_Name">{{a.Type_Name}}</option>
           </select>
-
           <select id="cityName" class="form-control" [(ngModel)]="filteredCityName" (change)="filter()">
             <option value="" selected disabled hidden>Odaberite grad</option>
             <option *ngFor="let a of listOfCityNames" [value]="a.City_Name">{{a.City_Name}}</option>
           </select>
-
-
-
           <input id="dateRangePicker" (bsValueChange)="filter()" placeholder="Odaberite datume" class="form-control" #drp="bsDaterangepicker"
             bsDaterangepicker [bsConfig]="bsConfig" placement="right" [(ngModel)]="bsRangeValue">
-
-
           <!-- Prikaz filtera za filtriranje po vremenu -->
           <div class="radio" id="radiobuttons">
             <label>
@@ -57,7 +43,6 @@
             <br>
             <label>
               <input type="radio" (change)="filter()" [(ngModel)]="filteredDate" [value]="monthString">Poslednjih 30 dana</label>
-
           </div>
           <!-- Kraj prikaza filtera za filtriranje po vremenu -->
           <div class="row">
@@ -69,10 +54,13 @@
             <div class="col-md-12">
               <button (click)="Logout()" id="btnReload" class="btn-info">Odjavite se</button>
             </div>
-
           </div>
+          <div class="row">
+              <div class="col-md-12">
+                <button (click)="help()" id="btnReload" class="btn-info">Pomoćna dokumentacija</button>
+              </div>
+            </div>
         </div>
-
       </div>
       <!-- Date Range Picker -->
       <div class="row">
@@ -80,12 +68,8 @@
         </div>
       </div>
       <!-- Kraj Date Range Picker -->
-
-
     </div>
-
     <div class="col-md-10" id="records">
-
       <br>
       <div id="tableEvidention" class="container">
         <div class="table-responsive">
@@ -117,25 +101,15 @@
               <td>{{record.Date_Time| date:'dd.MM.yyyy'}}</td>
               <td>{{record.Date_Time | date:"HH:mm"}}</td>
               <td>
-                <!-- <button [(ngModel)]="detailRecord" [value]="record.Record_Id" (click)="detailFilter();openModalWithClass(template)" class="btnDetails">Detaljnije</button> -->
-
                 <input type="button" value="Detaljnije" (click)="openModalWithClass(template, record)" id="btnDetails">
-
               </td>
             </tr>
-
           </table>
           <br>
         </div>
       </div>
       <pagination-controls class="paginationPosition" (pageChange)="p = $event"></pagination-controls>
-
     </div>
-
-
-
-
-
   </div>
 </div>
 
@@ -171,6 +145,5 @@
       <br> JMBG: {{selectedRecord.Owner_JMBG}}
       <br>
     </div>
-
   </div>
 </ng-template>

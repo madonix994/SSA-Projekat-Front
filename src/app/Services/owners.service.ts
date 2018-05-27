@@ -13,22 +13,19 @@ export class OwnersService {
 
   constructor(public http: HttpClient) { }
 
-  getOwners() : Observable<IOwner[]>
-  {
-    return this.http.get<IOwner[]>(this.serviceUrl+'/api/portal/owners/getallowners');
+  getOwners(): Observable<IOwner[]> {
+    return this.http.get<IOwner[]>(this.serviceUrl + '/api/portal/owners/getallowners');
   }
 
-  insertOwners(owner){
+  insertOwners(owner) {
     return this.http.post(this.serviceUrl + '/api/portal/owners/insertowner', owner);
   }
 
-  updateOwners(owner)
-  {
-
+  updateOwners(owner) {
     return this.http.put(this.serviceUrl + '/api/portal/owners/updateowner', owner);
 
   }
-  
+
   deleteOwner(Owner_id) {
     return this.http.get(this.serviceUrl + '/api/portal/owners/deleteowner/' + Owner_id);
   }

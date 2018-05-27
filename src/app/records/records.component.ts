@@ -20,8 +20,6 @@ import { Router } from '@angular/router';
 import { LogedUserService } from '../Services/loged-user.service';
 import { ILogin } from '../Models/ILogin';
 import { Placeholder } from '@angular/compiler/src/i18n/i18n_ast';
-import {  } from "../OnDestroy";
-
 
 @Component({
   selector: 'app-records',
@@ -33,49 +31,29 @@ export class RecordsComponent implements OnInit {
   constructor(private modalService: BsModalService, private logedUserService: LogedUserService, private router: Router, private recordsService: RecordsService, public datepipe: DatePipe, private typeNameService: TypeNameService, private cityNameService: CityNameService) { }
 
   modalRef: BsModalRef;
-
   public numberOfRecords: number;
-
   public records: IRecord[] = []; // Deklaracija praznog niza po tipu interfejsa IRecord
-
   public selectedRecord: IRecord;
-
-
   public filteredRecords: IRecord[] = [];
-
   public detailRecords: IRecord[] = [];
-
   public typeNames: ITypeName[] = [];
-
   public users: ILogin[] = [];
-
   public filteredApartmentType: string = "";//pokupljen select sa fronta iz dropdown-a!
-
   public listOfApartmentTypes: string[] = [];
-
   public cityNames: ICityName[] = [];
-
   public filteredCityName: string = "";
-
   public listOfCityNames: string[] = [];
   public filteredDate: string;
-
   public detailRecord: string;
-
   today: Date;
   public todayString: string;
-
   week: Date;
   public weekString: string;
-
   month: Date;
   public monthString: string;
-
   AllDate: Date;
   public AllDateString: string;
-
   public searchfilter: string;
-
   colorTheme = 'theme-dark-blue';
   bsConfig: Partial<BsDatepickerConfig>;
   bsValue = new Date();
@@ -83,7 +61,6 @@ export class RecordsComponent implements OnInit {
   bsRangeValue: Date[];
   date1: string;
   date2: string;
-
   public Owner_Name: string = "";
   public Owner_Surname: string = "";
   public Owner_Number_of_apartments: number = 0;
@@ -107,11 +84,9 @@ export class RecordsComponent implements OnInit {
     this.router.navigate(['/login'])
   }
 
-
   applyTheme() {
     this.bsConfig = Object.assign({}, { containerClass: this.colorTheme });
   }
-
 
   getRecords(): void {
     this.recordsService.getRecords()
@@ -122,16 +97,14 @@ export class RecordsComponent implements OnInit {
           if (record.Owner_Surname === this.users[0].Surname) {
             this.filteredRecords = JSON.parse(JSON.stringify(
               this.filteredRecords.filter(r => r.Owner_Surname === this.users[0].Surname)));
-              this.Owner_Number_of_apartments = this.filteredRecords.length;
+            this.Owner_Number_of_apartments = this.filteredRecords.length;
           }
         }
 
       });
 
-    
+
   }
-
-
 
   getTypeName(): void {
     this.typeNameService.getTypeName()
@@ -163,7 +136,6 @@ export class RecordsComponent implements OnInit {
       });
   }
 
-
   ClearFilters() {
     this.filteredRecords = this.records;
     for (let record of this.records) {
@@ -177,6 +149,7 @@ export class RecordsComponent implements OnInit {
     this.bsRangeValue = undefined;
     this.searchfilter = undefined;
   }
+
   filter() {
     this.filteredRecords = this.records;
     for (let record of this.records) {
@@ -225,11 +198,9 @@ export class RecordsComponent implements OnInit {
 
   }
 
-
-
-
-
-
+  help() {
+    this.router.navigate(['/mainhelp']);
+  }
   //Za sortiranje
   public key: string;
   reverse: boolean = false;
@@ -245,12 +216,11 @@ export class RecordsComponent implements OnInit {
 
   ngOnInit() {
     this.getLogedUser();
-    setTimeout(() => 
-            {
-              this.getRecords();
-            },
-            1000);
-        
+    setTimeout(() => {
+      this.getRecords();
+    },
+      1000);
+
     this.getTypeName();
     this.getCityName();
     this.today = new Date();
@@ -264,14 +234,8 @@ export class RecordsComponent implements OnInit {
     this.AllDate = new Date();
     this.AllDate.setDate(this.AllDate.getDay() - 15000);
     this.AllDateString = this.datepipe.transform(this.AllDate, 'yyyy-MM-dd');
-
     this.applyTheme();
 
   }
-
-  //ngOnDestroy() { 
-   // this.Trancate();
- // }
- 
 
 }

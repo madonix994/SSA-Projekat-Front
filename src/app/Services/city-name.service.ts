@@ -14,9 +14,8 @@ export class CityNameService {
 
   constructor(public http: HttpClient) { }
 
-  getCityName() : Observable<ICityName[]>
-  {
-    return this.http.get<ICityName[]>(this.serviceUrl+'/api/portal/cities/getallcitynames');
+  getCityName(): Observable<ICityName[]> {
+    return this.http.get<ICityName[]>(this.serviceUrl + '/api/portal/cities/getallcitynames');
   }
 
 }

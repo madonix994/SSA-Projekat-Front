@@ -197,10 +197,11 @@ export class AlldataComponent implements OnInit {
         this.txtCity_Name = undefined;
         this.txtPpt = undefined;
         this.insertCity = undefined;
+        this.modalRef.hide();
         setTimeout(() => {
-          window.location.reload();
+          this.getCities();
         },
-          500);
+          300);
       }
 
     }
@@ -224,11 +225,11 @@ export class AlldataComponent implements OnInit {
         this.txtPpt = undefined;
         this.txtCityID = undefined;
         this.updateCity = undefined;
-
+        this.modalRef.hide();
         setTimeout(() => {
-          window.location.reload();
+          this.getCities();
         },
-          500);
+          300);
       }
 
     }
@@ -240,9 +241,9 @@ export class AlldataComponent implements OnInit {
       this.citiesService.deleteCity(this.deleteID).subscribe();
       this.deleteID = undefined;
       setTimeout(() => {
-        window.location.reload();
+        this.getCities();
       },
-        500);
+        300);
 
     }
   }
@@ -279,13 +280,13 @@ export class AlldataComponent implements OnInit {
         this.txtOwner_Card_Number = undefined;
         this.txtOwner_Username = undefined;
         this.txtOwner_Password = undefined;
-
-
         this.insertOwner = undefined;
+        this.modalRef.hide();
+
         setTimeout(() => {
-          window.location.reload();
+          this.getOwners();
         },
-          500);
+          300);
       }
 
     }
@@ -314,12 +315,12 @@ export class AlldataComponent implements OnInit {
       this.txtOwner_Username = undefined;
       this.txtOwner_Password = undefined;
       this.txtOwnerID = undefined;
-
       this.updateOwner = undefined;
+      this.modalRef.hide();
       setTimeout(() => {
-        window.location.reload();
+        this.getOwners();
       },
-        500);
+        300);
     }
 
   }
@@ -330,9 +331,9 @@ export class AlldataComponent implements OnInit {
       this.ownersService.deleteOwner(this.deleteID).subscribe();
       this.deleteID = undefined;
       setTimeout(() => {
-        window.location.reload();
+        this.getOwners();
       },
-        500);
+        300);
 
     }
   }
@@ -359,10 +360,11 @@ export class AlldataComponent implements OnInit {
           .subscribe(insertType => this.types.push(this.insertType));
         this.txtType_Name = undefined;
         this.insertType = undefined;
+        this.modalRef.hide();
         setTimeout(() => {
-          window.location.reload();
+          this.getTypes();
         },
-          500);
+          300);
       }
 
     }
@@ -384,10 +386,11 @@ export class AlldataComponent implements OnInit {
         this.txtType_Name = undefined;
         this.txtOwnerID = undefined;
         this.updateType = undefined;
+        this.modalRef.hide();
         setTimeout(() => {
-          window.location.reload();
+          this.getTypes();
         },
-          500);
+          300);
       }
 
     }
@@ -401,9 +404,9 @@ export class AlldataComponent implements OnInit {
       this.typeService.deleteTypes(this.deleteID).subscribe();
       this.deleteID = undefined;
       setTimeout(() => {
-        window.location.reload();
+        this.getTypes();
       },
-        500);
+        300);
 
     }
   }
@@ -437,10 +440,11 @@ export class AlldataComponent implements OnInit {
         this.filteredCityName = undefined;
         this.filteredOwnerName = undefined;
         this.insertApartment = undefined;
+        this.modalRef.hide();
         setTimeout(() => {
-          window.location.reload();
+          this.getApartments();
         },
-          500);
+          300);
       }
 
     }
@@ -471,10 +475,11 @@ export class AlldataComponent implements OnInit {
         this.filteredOwnerName = undefined;
         this.txtApartmentID = undefined;
         this.updateApartment = undefined;
+        this.modalRef.hide();
         setTimeout(() => {
-          window.location.reload();
+          this.getApartments();
         },
-          500);
+          300);
       }
 
     }
@@ -488,9 +493,9 @@ export class AlldataComponent implements OnInit {
       this.apartmentService.deleteApartments(this.deleteID).subscribe();
       this.deleteID = undefined;
       setTimeout(() => {
-        window.location.reload();
+        this.getApartments();
       },
-        500);
+        300);
 
     }
   }

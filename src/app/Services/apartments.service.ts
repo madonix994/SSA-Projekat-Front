@@ -15,10 +15,6 @@ export class ApartmentsService {
 
   constructor(public http: HttpClient) { }
 
-  getApartments(): Observable<IApartments[]> {
-    return this.http.get<IApartments[]>(this.serviceUrl + '/api/portal/apartments/getallapartments');
-  }
-
   getApartmentsjoin(): Observable<IApartmentjoin[]> {
     return this.http.get<IApartmentjoin[]>(this.serviceUrl + '/api/portal/apartments/getallapartmentsjoined');
   }

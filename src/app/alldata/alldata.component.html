@@ -11,7 +11,6 @@
         <input type="button" value="Unesi grad" (click)="openModalWithClassCity(templateCity)" id="btnDetails2">
         <input type="button" value="Unesi Apartman" (click)="openModalWithClassApartment(templateApartmant)" id="btnDetails2">
         <input type="button" value="Unesi tip apartmana" (click)="openModalWithClassType(templateType)" id="btnDetails2">
-        <input type="button" value="Simuliraj ulaz" (click)="insertRecords()" id="btnDetails2">
         <input type="button" value="Pomoćna dokumentacija" (click)="help()" id="btnDetails2">
       </span>
     </div>
@@ -185,6 +184,7 @@
                 <span class="glyphicon sort-icon" *ngIf="key =='Date_Time'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
               </td>
               <td>Vreme</td>
+              <td>Status</td>
               <td>Akcija</td>
             </tr>
             <tr *ngFor="let record of filteredRecords | orderBy: key : reverse | paginate: { itemsPerPage: 6, currentPage: p }; let i = index">
@@ -193,8 +193,9 @@
               <td>{{record.Type_Name}}</td>
               <td>{{record.City_Name}}{{message}}</td>
               <td>{{record.Address}}</td>
-              <td>{{record.Date_Time| date:'dd.MM.yyyy'}}</td>
-              <td>{{record.Date_Time | date:"HH:mm"}}</td>
+              <td>{{record.Date_Time | date:'dd.MM.yyyy'}}</td>
+              <td>{{record.Date_Time | date:"HH:mm:ss"}}</td>
+              <td>{{record.Record_Status}}</td>
               <td>
                 <input type="button" value="Detaljnije" (click)="openModalWithClass(template, record)" id="btnDetails">
               </td>
@@ -222,7 +223,6 @@
       <h2>Osoba</h2>
       Ime: {{selectedRecord.Person_Name}}
       <br> Prezime: {{selectedRecord.Person_Surname}}
-      <br> JMBG: {{selectedRecord.JMBG}}
       <br>
     </div>
     <div class="appartment">
@@ -231,7 +231,8 @@
       <br> Mesto: {{selectedRecord.City_Name}}
       <br> Adresa: {{selectedRecord.Address}}
       <br> Broj stana: {{selectedRecord.Apartment_Number}}
-      <br> Datum i vreme: {{selectedRecord.Date_Time}}
+      <br> Datum: {{selectedRecord.Date_Time | date:'dd.MM.yyyy'}}
+      <br> Vreme: {{selectedRecord.Date_Time | date:"HH:mm:ss"}}
       <br> Status: {{selectedRecord.Record_Status}}
       <br>
     </div>
@@ -256,7 +257,7 @@
     <form style="margin-top: 5%">
       <input type="text" id="inputOwner" class="form-control" name="cities" [(ngModel)]="txtCity_Name" style="color:black" placeholder="Naziv grada">
       <input type="number" id="inputOwner" class="form-control" name="cities" [(ngModel)]="txtPpt" style="color:black" placeholder="PPT">
-      <input id="btnInsert"  style="width: 100px" type="button" (click)="insertCities(txtCity_Name, txtPpt)" value="Unesi">
+      <input id="btnInsert" style="width: 100px" type="button" (click)="insertCities(txtCity_Name, txtPpt)" value="Unesi">
     </form>
   </div>
 </ng-template>
@@ -275,7 +276,7 @@
       <input type="text" id="inputOwner" class="form-control" name="owners" [(ngModel)]="txtOwner_JMBG" placeholder="JMBG vlasnika">
       <input type="number" id="inputOwner" class="form-control" name="owners" [(ngModel)]="txtOwner_Card_Number" placeholder="Broj licne karte vlasnika">
       <input type="text" id="inputOwner" class="form-control" name="owners" [(ngModel)]="txtOwner_Username" placeholder="Korisnicko ime vlasnika">
-      <input type="text" id="inputOwner" class="form-control" name="owners" [(ngModel)]="txtOwner_Password" placeholder="Lozinka vlasnika">
+      <input type="password" id="inputOwner" class="form-control" name="owners" [(ngModel)]="txtOwner_Password" placeholder="Lozinka vlasnika">
       <input type="button" style="width: 100px" id="btnInsert" (click)="insertOwners(txtOwner_Name, txtOwner_Surname, txtOwner_JMBG, txtOwner_Card_Number, txtOwner_Username, txtOwner_Password)"
         value="Unesi">
     </form>
@@ -297,9 +298,10 @@
       <input type="number" id="inputOwner" class="form-control" name="ownersupdateCard" [(ngModel)]="selectedOwner.Card_Number"
         style="color:black">
       <input type="text" id="inputOwner" class="form-control" name="ownersupdateUser" [(ngModel)]="selectedOwner.Username" style="color:black">
-      <input type="text" id="inputOwner" class="form-control" name="ownersupdatePass" [(ngModel)]="selectedOwner.Password" style="color:black">
+      <input type="password" id="inputOwner" class="form-control" name="ownersupdatePass" [(ngModel)]="selectedOwner.Password"
+        style="color:black">
       <input type="hidden" name="ownersID" [(ngModel)]="selectedOwner.Owner_Id" style="color:black">
-      <input type="button"  style="width: 100px" (click)="updateOwners(selectedOwner.Owner_Id, selectedOwner.Name, selectedOwner.Surname, selectedOwner.JMBG, selectedOwner.Card_Number, selectedOwner.Username, selectedOwner.Password)"
+      <input type="button" style="width: 100px" (click)="updateOwners(selectedOwner.Owner_Id, selectedOwner.Name, selectedOwner.Surname, selectedOwner.JMBG, selectedOwner.Card_Number, selectedOwner.Username, selectedOwner.Password)"
         id="btnInsert" value="Izmeni">
     </form>
   </div>
@@ -331,7 +333,8 @@
     <form style="margin-top: 5%">
       <input type="text" id="inputOwner" class="form-control" name="types" [(ngModel)]="selectedType.Type_Name" style="color:black">
       <input type="hidden" id="inputOwner" class="form-control" name="typesID" [(ngModel)]="selectedType.Type_Id" style="color:black">
-      <input type="button" style="width: 100px;" (click)="updateTypes(selectedType.Type_Id, selectedType.Type_Name)" value="Izmeni" id="btnInsert">
+      <input type="button" style="width: 100px;" (click)="updateTypes(selectedType.Type_Id, selectedType.Type_Name)" value="Izmeni"
+        id="btnInsert">
     </form>
   </div>
 </ng-template>
@@ -346,9 +349,8 @@
   <div class="modal-body" id="modal-mainApartment">
     <form style="margin-top: 5%">
       <input type="text" id="inputOwner" class="form-control" name="apartments" [(ngModel)]="txtAddress" style="color:black" placeholder="Adresa apartmana">
-      <input type="number" id="inputOwner" class="form-control" name="apartments" [(ngModel)]="txtApartmentNumber" style="color:black" placeholder="Broj stana">
-
-       Odaberite tip stana:
+      <input type="number" id="inputOwner" class="form-control" name="apartments" [(ngModel)]="txtApartmentNumber" style="color:black"
+        placeholder="Broj stana"> Odaberite tip stana:
       <select id="apartmentType" id="inputOwner" class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="filteredApartmentType">
         <option value="" selected disabled hidden>Odaberite tip stana</option>
         <option *ngFor="let a of listOfApartmentTypes" [value]="a.Type_Id">{{a.Type_Name}}</option>
@@ -363,7 +365,7 @@
         <option value="" selected disabled hidden>Odaberite vlasnika</option>
         <option *ngFor="let a of listOfOwners" [value]="a.Owner_Id">{{a.Name}} {{a.Surname}}</option>
       </select>
-      
+
       <input type="button" style="width: 100px;" (click)="insertApartments(txtAddress, txtApartmentNumber, filteredApartmentType, filteredCityName, filteredOwnerName)"
         class="fadeIn fourth" value="Unesi" id="btnInsert">
     </form>
@@ -381,8 +383,8 @@
     <form style="margin-top: 5%">
       <input type="text" id="inputOwner" class="form-control" name="citiesname" [(ngModel)]="selectedCity.City_Name" style="color:black">
       <input type="number" id="inputOwner" class="form-control" name="citiesppt" [(ngModel)]="selectedCity.Ppt" style="color:black">
-      <input type="hidden"  name="citiesID" [(ngModel)]="selectedCity.City_Id" style="color:black">
-      <input id="btnInsert"  style="width: 100px" type="button" (click)="updateCities(selectedCity.City_Id, selectedCity.City_Name, selectedCity.Ppt)"
+      <input type="hidden" name="citiesID" [(ngModel)]="selectedCity.City_Id" style="color:black">
+      <input id="btnInsert" style="width: 100px" type="button" (click)="updateCities(selectedCity.City_Id, selectedCity.City_Name, selectedCity.Ppt)"
         value="Izmeni">
     </form>
   </div>
@@ -397,9 +399,10 @@
   </div>
   <div class="modal-body" id="modal-mainApartment">
     <form style="margin-top: 5%">
-      <input type="text"  id="inputOwner" class="form-control" name="apartmentsAddress" [(ngModel)]="selectedApartment.Address" style="color:black" placeholder="Adresa apartmana">
-      <input type="number" id="inputOwner" class="form-control" name="apartmentsNumber" [(ngModel)]="selectedApartment.Apartment_Number" style="color:black" placeholder="Broj stana">
-       Odaberite tip stana:
+      <input type="text" id="inputOwner" class="form-control" name="apartmentsAddress" [(ngModel)]="selectedApartment.Address"
+        style="color:black" placeholder="Adresa apartmana">
+      <input type="number" id="inputOwner" class="form-control" name="apartmentsNumber" [(ngModel)]="selectedApartment.Apartment_Number"
+        style="color:black" placeholder="Broj stana"> Odaberite tip stana:
       <select id="apartmentType" id="inputOwner" class="form-control" name="apartmentsTID" [(ngModel)]="selectedApartment.Type_Id">
         <option value="" selected disabled hidden>Odaberite tip stana</option>
         <option *ngFor="let a of listOfApartmentTypes" [value]="a.Type_Id">{{a.Type_Name}}</option>

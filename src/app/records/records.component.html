@@ -12,7 +12,7 @@
           <p class="UserName">Korisnik:
             <span style="font-weight: bold">{{Owner_Name}} {{ Owner_Surname}}</span>
           </p>
-          <p class="numberOfApartments">Broj stanova:
+          <p class="numberOfApartments">Broj aktivnosti:
             <span style="font-weight: bold">{{Owner_Number_of_apartments}}</span>
           </p>
         </div>
@@ -90,6 +90,7 @@
                 <span class="glyphicon sort-icon" *ngIf="key =='Date_Time'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
               </td>
               <td>Vreme</td>
+              <td>Status</td>
               <td>Akcija</td>
             </tr>
             <tr *ngFor="let record of filteredRecords | orderBy: key : reverse | filter:searchfilter | paginate: { itemsPerPage: 6, currentPage: p }; let i = index">
@@ -98,8 +99,9 @@
               <td>{{record.Type_Name}}</td>
               <td>{{record.City_Name}}</td>
               <td>{{record.Address}}</td>
-              <td>{{record.Date_Time| date:'dd.MM.yyyy'}}</td>
-              <td>{{record.Date_Time | date:"HH:mm"}}</td>
+              <td>{{record.Date_Time | date:'dd.MM.yyyy'}}</td>
+              <td>{{record.Date_Time | date:"HH:mm:ss"}}</td>
+              <td>{{record.Record_Status}}</td>
               <td>
                 <input type="button" value="Detaljnije" (click)="openModalWithClass(template, record)" id="btnDetails">
               </td>
@@ -125,7 +127,6 @@
       <h2>Osoba</h2>
       Ime: {{selectedRecord.Person_Name}}
       <br> Prezime: {{selectedRecord.Person_Surname}}
-      <br> JMBG: {{selectedRecord.JMBG}}
       <br>
     </div>
     <div class="appartment">
@@ -134,7 +135,8 @@
       <br> Mesto: {{selectedRecord.City_Name}}
       <br> Adresa: {{selectedRecord.Address}}
       <br> Broj stana: {{selectedRecord.Apartment_Number}}
-      <br> Datum i vreme: {{selectedRecord.Date_Time}}
+      <br> Datum: {{selectedRecord.Date_Time | date:'dd.MM.yyyy'}}
+      <br> Vreme: {{selectedRecord.Date_Time | date:"HH:mm:ss"}}
       <br> Status: {{selectedRecord.Record_Status}}
       <br>
     </div>

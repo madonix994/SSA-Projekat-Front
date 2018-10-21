@@ -64,7 +64,7 @@ export class RecordsComponent implements OnInit {
   public Owner_Name: string = "";
   public Owner_Surname: string = "";
   public Owner_Number_of_apartments: number = 0;
-
+ 
   openModalWithClass(template: TemplateRef<any>, selectedRecord: IRecord) {
     this.modalRef = this.modalService.show(
       template,
@@ -148,6 +148,9 @@ export class RecordsComponent implements OnInit {
     this.filteredDate = undefined;
     this.bsRangeValue = undefined;
     this.searchfilter = undefined;
+    this.filteredApartmentType = '';
+    this.filteredCityName = '';
+
   }
 
   filter() {
